@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formen AI — Ask Anything</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0f;
+    --panel: rgba(26, 22, 37, 0.55);
+    --panel-2: rgba(38, 32, 54, 0.55);
+    --line: rgba(255, 255, 255, 0.08);
+    --text: #f1eef7;
+    --muted: #9b95b3;
+    --accent: #e8a33d;
+    --accent-dim: #6b5024;
+    --accent-text: #1a1408;
+    --success: #6fbf8b;
+    --danger: #d9695f;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    display:flex;
+    overflow:hidden;
+    position: relative;
+  }
+  .bg-glow{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-glow span{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.55;
+  }
+  .bg-glow .blob-1{
+    width: 620px; height: 620px;
+    top: -220px; left: -160px;
+    background: radial-gradient(circle at 30% 30%, #3b82f6, transparent 70%);
+    animation: drift1 26s ease-in-out infinite alternate;
+  }
+  .bg-glow .blob-2{
+    width: 560px; height: 560px;
+    bottom: -240px; right: -180px;
+    background: radial-gradient(circle at 60% 40%, #f97316, transparent 70%);
+    animation: drift2 30s ease-in-out infinite alternate;
+  }
+  .bg-glow .blob-3{
+    width: 480px; height: 480px;
+    top: 30%; left: 40%;
+    background: radial-gradient(circle at 50% 50%, #60a5fa, transparent 70%);
+    opacity: 0.28;
+    animation: drift3 34s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{ from{ transform: translate(0,0); } to{ transform: translate(60px, 40px); } }
+  @keyframes drift2{ from{ transform: translate(0,0); } to{ transform: translate(-50px, -30px); } }
+  @keyframes drift3{ from{ transform: translate(0,0) scale(1); } to{ transform: translate(-40px, 30px) scale(1.08); } }
+  @media (prefers-reduced-motion: reduce){
+    .bg-glow span{ animation: none !important; }
+  }
+  .sidebar, .main{ position: relative; z-index: 1; }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 4px; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width: 260px;
+    min-width: 260px;
+    background: rgba(20, 17, 28, 0.55);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    padding: 18px 14px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 4px 6px 20px 6px;
+  }
+  .brand-mark{
+    width:30px; height:30px;
+    border-radius:8px;
+    background: linear-gradient(135deg, var(--accent), #b97a2a);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    color: var(--accent-text);
+    flex-shrink:0;
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .new-chat{
+    background: var(--panel-2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-family:'Inter';
+    font-size: 13.5px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+    margin-bottom: 16px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .new-chat:hover{ border-color: var(--accent); background:#252a3d; }
+
+  .plan-card{
+    margin-top:auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    background: var(--panel-2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .plan-card .row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .plan-label{ font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight:600; }
+  .plan-badge{
+    font-size: 11px;
+    font-weight:700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .plan-badge.premium{ background: var(--accent); color: var(--accent-text); }
+  .plan-badge.free{ background: #333853; color: var(--muted); }
+  .plan-desc{ font-size: 12.5px; color: var(--muted); line-height:1.5; margin: 6px 0 12px 0; }
+  .usage-bar{ height:6px; background:#2b3046; border-radius:4px; overflow:hidden; margin-bottom:6px; }
+  .usage-fill{ height:100%; background: var(--accent); transition: width .3s ease; }
+  .usage-text{ font-size: 11px; color: var(--muted); font-family:'JetBrains Mono', monospace; }
+
+  .admin-toggle-btn{
+    margin-top: 10px;
+    width:100%;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--muted);
+    padding: 9px;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor:pointer;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .admin-toggle-btn:hover{ color: var(--accent); border-color: var(--accent-dim); }
+
+  .credit-line{
+    text-align:center;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 12px;
+    letter-spacing: 0.02em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ---------- Main ---------- */
+  .main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+  .topbar{
+    padding: 16px 26px;
+    border-bottom: 1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    background: rgba(10, 10, 15, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .topbar h1{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin:0;
+  }
+  .topbar .sub{ color: var(--muted); font-size: 12.5px; margin-top:2px; }
+
+  .chat-scroll{
+    flex:1;
+    overflow-y:auto;
+    padding: 28px 0 10px 0;
+  }
+  .chat-inner{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 26px;
+  }
+
+  .empty-state{
+    max-width: 560px;
+    margin: 10vh auto;
+    text-align:center;
+    color: var(--muted);
+  }
+  .empty-state .glyph{
+    font-family:'Fraunces', serif;
+    font-size: 42px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .empty-state h2{
+    font-family:'Fraunces', serif;
+    color: var(--text);
+    font-weight:500;
+    font-size: 22px;
+    margin: 6px 0 8px 0;
+  }
+  .empty-state p{ font-size: 13.5px; line-height:1.6; }
+
+  .msg{ display:flex; gap:12px; margin-bottom: 22px; align-items:flex-start; }
+  .msg.user{ flex-direction: row-reverse; }
+  .avatar{
+    width:30px; height:30px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight:600;
+  }
+  .avatar.ai{ background: linear-gradient(135deg, var(--accent), #b97a2a); color: var(--accent-text); }
+  .avatar.you{ background: var(--panel-2); border:1px solid var(--line); color: var(--muted); }
+  .bubble{
+    max-width: 78%;
+    padding: 12px 15px;
+    border-radius: 14px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+  .msg.ai .bubble{ background: var(--panel-2); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); border-top-left-radius: 4px; }
+  .msg.user .bubble{ background: rgba(59, 130, 246, 0.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(59, 130, 246, 0.32); border-top-right-radius: 4px; }
+  .msg .meta{ font-size: 10.5px; color: var(--muted); font-family:'JetBrains Mono', monospace; margin-top: 5px; }
+
+  .typing{ display:flex; gap:4px; padding: 4px 2px; }
+  .typing span{
+    width:6px; height:6px; border-radius:50%; background: var(--muted);
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay: .15s; }
+  .typing span:nth-child(3){ animation-delay: .3s; }
+  @keyframes bounce{ 0%,60%,100%{ transform: translateY(0); opacity:.4; } 30%{ transform: translateY(-4px); opacity:1; } }
+
+  .composer-wrap{
+    padding: 16px 26px 22px 26px;
+    border-top: 1px solid var(--line);
+    background: rgba(10, 10, 15, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .composer{
+    max-width: 760px;
+    margin: 0 auto;
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    background: var(--panel-2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 10px 10px 10px 16px;
+  }
+  .composer:focus-within{ border-color: var(--accent-dim); }
+  .composer textarea{
+    flex:1;
+    background: transparent;
+    border:none;
+    outline:none;
+    resize:none;
+    color: var(--text);
+    font-family:'Inter';
+    font-size: 14.5px;
+    line-height: 1.5;
+    max-height: 140px;
+    padding: 6px 0;
+  }
+  .composer textarea::placeholder{ color: var(--muted); }
+  .send-btn{
+    background: var(--accent);
+    color: var(--accent-text);
+    border:none;
+    width: 36px; height:36px;
+    border-radius: 10px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition: opacity .15s ease, transform .1s ease;
+  }
+  .send-btn:disabled{ opacity: .35; cursor:not-allowed; }
+  .send-btn:active:not(:disabled){ transform: scale(0.94); }
+
+  .tool-btn{
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tool-btn:hover{ background: rgba(255,255,255,0.06); color: var(--text); }
+  .tool-btn.active{ color: var(--accent-text); background: var(--accent); }
+
+  .mode-note{
+    max-width: 760px; margin: 8px auto 0 auto;
+    text-align:center; font-size: 12px; color: var(--accent);
+    display:none;
+  }
+  .mode-note.visible{ display:block; }
+
+  .image-preview-row{
+    max-width: 760px; margin: 0 auto 10px auto;
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .image-preview-chip{
+    position: relative;
+    width: 64px; height: 64px;
+    border-radius: 10px;
+    overflow:hidden;
+    border: 1px solid var(--line);
+  }
+  .image-preview-chip img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .image-preview-chip .remove-chip{
+    position:absolute; top:2px; right:2px;
+    width:18px; height:18px;
+    background: rgba(0,0,0,0.65);
+    border-radius:50%;
+    color:#fff;
+    font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    border:none;
+  }
+
+  .bubble img.chat-image{
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 6px;
+    display:block;
+  }
+  .bubble .image-loading{
+    display:flex; align-items:center; gap:8px;
+    font-size: 13px; color: var(--muted);
+  }
+  .limit-note{
+    max-width: 760px; margin: 10px auto 0 auto;
+    text-align:center; font-size: 12px; color: var(--muted);
+  }
+  .limit-note b{ color: var(--accent); }
+
+  /* ---------- Admin panel ---------- */
+  .overlay{
+    position: fixed; inset:0;
+    background: rgba(5, 5, 10, 0.65);
+    backdrop-filter: blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    z-index: 50;
+  }
+  .admin-panel{
+    width: 480px;
+    max-width: 92vw;
+    max-height: 86vh;
+    overflow-y:auto;
+    background: rgba(24, 20, 33, 0.75);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .admin-panel h2{
+    font-family:'Fraunces', serif;
+    font-size: 19px;
+    margin: 0 0 3px 0;
+    display:flex; align-items:center; gap:8px;
+  }
+  .admin-panel .lead{ color: var(--muted); font-size: 12.5px; margin-bottom: 18px; }
+
+  .pin-row{ display:flex; gap:8px; margin-top: 8px; }
+  .pin-row input{
+    flex:1;
+    background: var(--panel-2);
+    border:1px solid var(--line);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing: 3px;
+    font-size: 14px;
+    outline:none;
+  }
+  .pin-row input:focus{ border-color: var(--accent); }
+  .pin-row button, .admin-close{
+    background: var(--accent);
+    color: var(--accent-text);
+    border:none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight:600;
+    font-size: 13px;
+    cursor:pointer;
+  }
+  .pin-hint{ font-size: 11px; color: var(--muted); margin-top:8px; font-family:'JetBrains Mono', monospace; }
+  .pin-error{ font-size: 12px; color: var(--danger); margin-top: 8px; }
+
+  .control{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: var(--panel-2);
+  }
+  .control .ctitle{ font-size: 13.5px; font-weight:600; margin-bottom:2px; }
+  .control .cdesc{ font-size: 12px; color: var(--muted); line-height:1.5; margin-bottom: 10px; }
+
+  .switch-row{ display:flex; align-items:center; justify-content:space-between; }
+  .switch{
+    position: relative;
+    width: 42px; height: 24px;
+    background: #333853;
+    border-radius: 999px;
+    cursor:pointer;
+    transition: background .15s ease;
+    flex-shrink:0;
+  }
+  .switch.on{ background: var(--accent); }
+  .switch .knob{
+    position:absolute; top:3px; left:3px;
+    width:18px; height:18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .15s ease;
+  }
+  .switch.on .knob{ transform: translateX(18px); }
+
+  .number-row{ display:flex; align-items:center; gap:10px; }
+  .number-row input[type=number]{
+    width: 80px;
+    background: var(--panel);
+    border:1px solid var(--line);
+    color: var(--text);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline:none;
+  }
+  .number-row input[type=number]:focus{ border-color: var(--accent); }
+
+  select.tone-select{
+    width:100%;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-family:'Inter';
+    font-size: 13px;
+    outline:none;
+  }
+
+  .overview-list{ display:flex; flex-direction:column; gap:7px; }
+  .overview-row{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size: 12.5px;
+  }
+  .overview-row .k{ color: var(--muted); }
+  .overview-row .v{ font-family:'JetBrains Mono', monospace; font-weight:600; }
+  .overview-row .v.on{ color: var(--success); }
+  .overview-row .v.off{ color: var(--danger); }
+
+  .analytics-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .stat-card .num{
+    font-family:'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height:1.15;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .stat-card .lbl{
+    font-size: 10.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .admin-footer{ display:flex; justify-content:flex-end; margin-top: 6px; }
+  .logout{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    cursor:pointer;
+  }
+  .logout:hover{ border-color: var(--danger); color: var(--danger); }
+</style>
+</head>
+<body>
+
+<div class="bg-glow">
+  <span class="blob-1"></span>
+  <span class="blob-2"></span>
+  <span class="blob-3"></span>
+</div>
+
+<div class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">F</div>
+    <div class="brand-name">Formen AI</div>
+  </div>
+  <button class="new-chat" id="newChatBtn">＋ New chat</button>
+
+  <div class="plan-card">
+    <div class="row">
+      <span class="plan-label">Your plan</span>
+      <span class="plan-badge" id="planBadge">—</span>
+    </div>
+    <div class="plan-desc" id="planDesc">Loading…</div>
+    <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width:0%"></div></div>
+    <div class="usage-text" id="usageText">—</div>
+  </div>
+  <button class="admin-toggle-btn" id="adminBtn" style="display:none;">⚙ Admin panel</button>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h1>Ask Formen AI anything</h1>
+      <div class="sub" id="topSub">Real answers, powered live.</div>
+    </div>
+  </div>
+
+  <div class="chat-scroll" id="chatScroll">
+    <div class="chat-inner" id="chatInner">
+      <div class="empty-state" id="emptyState">
+        <div class="glyph">F</div>
+        <h2>What do you want to know?</h2>
+        <p>Type a question below and Formen AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p>
+        <div class="credit-line">Made by Mr. Jiban Krushna Patro</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="composer-wrap">
+    <div class="image-preview-row" id="imagePreviewRow" style="display:none;"></div>
+    <div class="composer">
+      <button class="tool-btn" id="attachBtn" title="Attach an image to edit" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"/></svg>
+      </button>
+      <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      <button class="tool-btn" id="genImgBtn" title="Generate an image from your description" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+      </button>
+      <textarea id="input" placeholder="Message Formen AI…" rows="1"></textarea>
+      <button class="send-btn" id="sendBtn" title="Send">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <div class="mode-note" id="modeNote"></div>
+    <div class="limit-note" id="limitNote"></div>
+  </div>
+</div>
+
+<!-- Welcome / email gate (shown once per session) -->
+<div class="overlay" id="welcomeOverlay" style="display:flex;">
+  <div class="admin-panel" style="width:380px;">
+    <h2>👋 Welcome to Formen AI</h2>
+    <div class="lead">Enter your email once to start chatting. The admin can see it in the admin panel.</div>
+    <div class="pin-row">
+      <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+    </div>
+    <div class="pin-error" id="emailError" style="display:none;">Enter a valid email address.</div>
+    <div class="admin-footer" style="margin-top:14px;">
+      <button class="pin-row button" id="emailSubmit" style="background:var(--accent); color:var(--accent-text); border:none; padding:10px 18px; border-radius:10px; font-weight:600; font-size:13px; cursor:pointer;">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin overlay -->
+<div class="overlay" id="overlay" style="display:none;">
+  <div class="admin-panel">
+    <div id="loginView">
+      <h2>🔒 Admin access</h2>
+      <div class="lead">Enter the admin password to adjust the app for everyone.</div>
+      <div class="pin-row">
+        <input type="password" id="pinInput" placeholder="Password" autocomplete="off">
+        <button id="pinSubmit">Enter</button>
+      </div>
+      <div class="pin-hint">Change the password below once you're in.</div>
+      <div class="pin-error" id="pinError" style="display:none;">Wrong password. Try again.</div>
+    </div>
+
+    <div id="controlsView" style="display:none;">
+      <h2>⚙ Admin panel</h2>
+      <div class="lead">Changes apply instantly to every user of this app.</div>
+
+      <div class="control">
+        <div class="ctitle">Current features — snapshot</div>
+        <div class="cdesc">What's live right now, at a glance.</div>
+        <div id="featureOverview" class="overview-list"></div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">Live analytics</div>
+        <div class="cdesc">Tracked in this browser tab only. This is a single static page with no server behind it, so it can count what happens in this session, but it can't yet see other people's devices — that needs a real backend with a database (I can help you build that next if you want it).</div>
+        <div class="analytics-grid" id="analyticsGrid"></div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">All visitors — permanent (from your backend)</div>
+        <div class="cdesc">Every person who's ever entered an email, on any device, with their question history. Loads from your Cloudflare Worker once it's connected below.</div>
+        <div id="allVisitors" class="overview-list"></div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">This session's visitor log</div>
+        <div class="cdesc">Just what happened in this browser tab, most recent first — a quick local view alongside the permanent one above.</div>
+        <div id="visitorLog" class="overview-list"></div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">Give everyone premium for free</div>
+        <div class="cdesc">When on, all visitors get unlimited messages and the more detailed answer mode — no upgrade needed.</div>
+        <div class="switch-row">
+          <span class="usage-text" id="premiumStateLabel">ON</span>
+          <div class="switch on" id="premiumSwitch"><div class="knob"></div></div>
+        </div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">Free-tier message limit</div>
+        <div class="cdesc">How many messages a non-premium user gets per session. Only matters when free premium is off.</div>
+        <div class="number-row">
+          <input type="number" id="limitInput" min="1" max="200" value="10">
+          <span class="usage-text">messages / session</span>
+        </div>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">Answer detail</div>
+        <div class="cdesc">Controls how thorough Nova's answers are for everyone.</div>
+        <select class="tone-select" id="toneSelect">
+          <option value="concise">Concise — short, to the point</option>
+          <option value="balanced" selected>Balanced — clear with useful detail</option>
+          <option value="detailed">Detailed — thorough, premium-style answers</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <div class="ctitle">Change admin password</div>
+        <div class="cdesc">Password required to open this panel.</div>
+        <div class="pin-row">
+          <input type="password" id="newPin" placeholder="New password" autocomplete="off">
+          <button id="savePin">Save</button>
+        </div>
+      </div>
+
+      <div class="admin-footer">
+        <button class="logout" id="closeAdmin">Close panel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Only these emails ever get the admin panel — everyone else never sees it.
+  const ADMIN_EMAILS = ["devjiban321@gmail.com", "jibankrushnapatro58@gmail.com"];
+
+  // ---------- State (in-memory only) ----------
+  const state = {
+    adminPin: "jarvis123",
+    isAdminUnlocked: false,
+    premiumForAll: true,      // "premium included for free" — on by default per request
+    freeLimit: 10,
+    detailLevel: "balanced",  // concise | balanced | detailed
+    messagesUsed: 0,
+    history: [],              // {role, content}
+    isSending: false,
+    userEmail: null,
+    pendingImage: null,       // {dataUrl, base64, mimeType} — set when an image is attached for editing
+    generateImageMode: false, // true when the next message should generate an image instead of chat
+    analytics: {
+      sessionStart: Date.now(),
+      totalClicks: 0,
+      messagesSentTotal: 0,
+      newChatsStarted: 0,
+      visitorLog: []
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  const els = {
+    chatInner: $("chatInner"),
+    chatScroll: $("chatScroll"),
+    emptyState: $("emptyState"),
+    input: $("input"),
+    sendBtn: $("sendBtn"),
+    limitNote: $("limitNote"),
+    planBadge: $("planBadge"),
+    planDesc: $("planDesc"),
+    usageFill: $("usageFill"),
+    usageText: $("usageText"),
+    overlay: $("overlay"),
+    loginView: $("loginView"),
+    controlsView: $("controlsView"),
+    pinInput: $("pinInput"),
+    pinSubmit: $("pinSubmit"),
+    pinError: $("pinError"),
+    premiumSwitch: $("premiumSwitch"),
+    premiumStateLabel: $("premiumStateLabel"),
+    limitInput: $("limitInput"),
+    toneSelect: $("toneSelect"),
+    newPin: $("newPin"),
+    savePin: $("savePin"),
+    closeAdmin: $("closeAdmin"),
+    newChatBtn: $("newChatBtn"),
+    attachBtn: $("attachBtn"),
+    fileInput: $("fileInput"),
+    genImgBtn: $("genImgBtn"),
+    imagePreviewRow: $("imagePreviewRow"),
+    modeNote: $("modeNote"),
+    topSub: $("topSub"),
+    featureOverview: $("featureOverview"),
+    analyticsGrid: $("analyticsGrid"),
+    welcomeOverlay: $("welcomeOverlay"),
+    emailInput: $("emailInput"),
+    emailError: $("emailError"),
+    emailSubmit: $("emailSubmit"),
+    visitorLog: $("visitorLog"),
+    adminBtn: $("adminBtn")
+  };
+
+  function submitEmail(){
+    const v = els.emailInput.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if(!valid){
+      els.emailError.style.display = "block";
+      return;
+    }
+    state.userEmail = v;
+    state.analytics.visitorLog.push({ email: v, time: new Date().toLocaleString() });
+    els.welcomeOverlay.style.display = "none";
+
+    if(ADMIN_EMAILS.includes(v.toLowerCase())){
+      state.isAdminUnlocked = true;
+      els.adminBtn.style.display = "block";
+    }
+
+    if(state.isAdminUnlocked){ renderFeatureOverview(); renderAnalytics(); }
+    els.input.focus();
+  }
+  els.emailSubmit.addEventListener("click", submitEmail);
+  els.emailInput.addEventListener("keydown", (e) => { if(e.key === "Enter") submitEmail(); });
+
+  let analyticsInterval = null;
+
+  document.addEventListener("click", () => {
+    state.analytics.totalClicks += 1;
+    if(els.overlay.style.display === "flex" && state.isAdminUnlocked){
+      renderAnalytics();
+    }
+  });
+
+  function renderFeatureOverview(){
+    const rows = [
+      ["Current visitor's email", state.userEmail || "(not entered yet)", ""],
+      ["Premium for everyone", state.premiumForAll ? "ON" : "OFF", state.premiumForAll ? "on" : "off"],
+      ["Free-tier message limit", state.freeLimit + " / session", ""],
+      ["Answer detail level", state.detailLevel, ""],
+      ["Messages used (free tier, this session)", String(state.messagesUsed), ""],
+      ["Admin access", "email-gated + password", "on"]
+    ];
+    els.featureOverview.innerHTML = rows.map(([k, v, cls]) => `
+      <div class="overview-row">
+        <span class="k">${k}</span>
+        <span class="v ${cls}">${v}</span>
+      </div>`).join("");
+  }
+
+  function formatDuration(ms){
+    const s = Math.floor(ms / 1000);
+    const m = Math.floor(s / 60);
+    const rs = s % 60;
+    return `${m}m ${rs}s`;
+  }
+
+  function renderAnalytics(){
+    const duration = formatDuration(Date.now() - state.analytics.sessionStart);
+    const stats = [
+      [String(state.analytics.totalClicks), "Total clicks"],
+      [String(state.analytics.messagesSentTotal), "Messages sent"],
+      [String(state.analytics.newChatsStarted), "New chats started"],
+      [duration, "Session duration"],
+      [state.premiumForAll ? "0" : String(Math.max(0, state.freeLimit - state.messagesUsed)), "Free msgs remaining"]
+    ];
+    els.analyticsGrid.innerHTML = stats.map(([num, lbl]) => `
+      <div class="stat-card">
+        <div class="num">${num}</div>
+        <div class="lbl">${lbl}</div>
+      </div>`).join("");
+
+    if(els.visitorLog){
+      if(state.analytics.visitorLog.length === 0){
+        els.visitorLog.innerHTML = `<div class="overview-row"><span class="k">No emails collected yet this session</span></div>`;
+      } else {
+        els.visitorLog.innerHTML = [...state.analytics.visitorLog].reverse().map(entry => `
+          <div class="overview-row">
+            <span class="k">${entry.email}</span>
+            <span class="v">${entry.time}</span>
+          </div>`).join("");
+      }
+    }
+  }
+
+  function renderPlanCard(){
+    if(state.premiumForAll){
+      els.planBadge.textContent = "PREMIUM";
+      els.planBadge.className = "plan-badge premium";
+      els.planDesc.textContent = "Unlimited messages and detailed answers — free, courtesy of the admin.";
+      els.usageFill.style.width = "100%";
+      els.usageText.textContent = "Unlimited";
+      els.limitNote.innerHTML = "";
+      els.topSub.textContent = "Premium is on for everyone right now.";
+    } else {
+      els.planBadge.textContent = "FREE";
+      els.planBadge.className = "plan-badge free";
+      els.planDesc.textContent = "Limited messages per session. Ask the admin to enable free premium.";
+      const pct = Math.min(100, (state.messagesUsed / state.freeLimit) * 100);
+      els.usageFill.style.width = pct + "%";
+      els.usageText.textContent = `${state.messagesUsed} / ${state.freeLimit} used`;
+      const remaining = Math.max(0, state.freeLimit - state.messagesUsed);
+      els.limitNote.innerHTML = remaining > 0
+        ? `<b>${remaining}</b> free message${remaining===1?'':'s'} left this session`
+        : `You've used all your free messages this session.`;
+      els.topSub.textContent = "Running on the free plan.";
+    }
+    els.sendBtn.disabled = state.isSending || (!state.premiumForAll && state.messagesUsed >= state.freeLimit);
+  }
+
+  function autoResize(){
+    els.input.style.height = "auto";
+    els.input.style.height = Math.min(140, els.input.scrollHeight) + "px";
+  }
+  els.input.addEventListener("input", autoResize);
+  els.input.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && !e.shiftKey){
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  els.sendBtn.addEventListener("click", sendMessage);
+
+  els.newChatBtn.addEventListener("click", () => {
+    state.history = [];
+    state.analytics.newChatsStarted += 1;
+    els.chatInner.innerHTML = "";
+    els.chatInner.appendChild(els.emptyState);
+    els.emptyState.style.display = "block";
+  });
+
+  // ---------- Image attach (edit mode) ----------
+  els.attachBtn.addEventListener("click", () => els.fileInput.click());
+  els.fileInput.addEventListener("change", () => {
+    const file = els.fileInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      const base64 = dataUrl.split(",")[1];
+      state.pendingImage = { dataUrl, base64, mimeType: file.type };
+      state.generateImageMode = false; // attach + generate are mutually exclusive
+      renderModeUI();
+    };
+    reader.readAsDataURL(file);
+    els.fileInput.value = "";
+  });
+
+  function removePendingImage(){
+    state.pendingImage = null;
+    renderModeUI();
+  }
+
+  // ---------- Generate-image mode ----------
+  els.genImgBtn.addEventListener("click", () => {
+    state.generateImageMode = !state.generateImageMode;
+    if(state.generateImageMode) state.pendingImage = null; // mutually exclusive
+    renderModeUI();
+  });
+
+  function renderModeUI(){
+    els.genImgBtn.classList.toggle("active", state.generateImageMode);
+    els.attachBtn.classList.toggle("active", !!state.pendingImage);
+
+    if(state.pendingImage){
+      els.imagePreviewRow.style.display = "flex";
+      els.imagePreviewRow.innerHTML = `
+        <div class="image-preview-chip">
+          <img src="${state.pendingImage.dataUrl}">
+          <button class="remove-chip" id="removeChipBtn" type="button">✕</button>
+        </div>`;
+      document.getElementById("removeChipBtn").addEventListener("click", removePendingImage);
+    } else {
+      els.imagePreviewRow.style.display = "none";
+      els.imagePreviewRow.innerHTML = "";
+    }
+
+    if(state.pendingImage){
+      els.modeNote.textContent = "Describe how you want this image edited, then send.";
+      els.modeNote.classList.add("visible");
+      els.input.placeholder = "e.g. \"make the background black and white\"…";
+    } else if(state.generateImageMode){
+      els.modeNote.textContent = "Image generation mode — describe the image you want, then send.";
+      els.modeNote.classList.add("visible");
+      els.input.placeholder = "e.g. \"a fox reading a book, watercolor style\"…";
+    } else {
+      els.modeNote.classList.remove("visible");
+      els.input.placeholder = "Message Formen AI…";
+    }
+  }
+
+  function addMessage(role, content, imageDataUrl){
+    if(els.emptyState) els.emptyState.style.display = "none";
+    const msg = document.createElement("div");
+    msg.className = "msg " + (role === "user" ? "user" : "ai");
+    const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    msg.innerHTML = `
+      <div class="avatar ${role === 'user' ? 'you' : 'ai'}">${role === 'user' ? 'You' : 'F'}</div>
+      <div>
+        <div class="bubble"></div>
+        <div class="meta">${role === 'user' ? 'You' : 'Formen AI'} · ${time}</div>
+      </div>`;
+    const bubble = msg.querySelector(".bubble");
+    if(content) bubble.appendChild(document.createTextNode(content));
+    if(imageDataUrl){
+      const img = document.createElement("img");
+      img.className = "chat-image";
+      img.src = imageDataUrl;
+      bubble.appendChild(img);
+    }
+    els.chatInner.appendChild(msg);
+    els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
+    return msg;
+  }
+
+  function addTyping(){
+    const msg = document.createElement("div");
+    msg.className = "msg ai";
+    msg.id = "typingMsg";
+    msg.innerHTML = `
+      <div class="avatar ai">F</div>
+      <div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    els.chatInner.appendChild(msg);
+    els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
+  }
+  function removeTyping(){
+    const t = document.getElementById("typingMsg");
+    if(t) t.remove();
+  }
+
+  function detailSystemPrompt(){
+    if(!state.premiumForAll && state.detailLevel !== "detailed"){
+      // free-tier answers are trimmed unless admin gives everyone premium
+    }
+    const level = state.premiumForAll ? state.detailLevel : "concise";
+    if(level === "concise") return "Answer clearly and concisely. Keep responses short and to the point.";
+    if(level === "detailed") return "Answer thoroughly with useful detail, examples, and context, as a premium in-depth assistant would.";
+    return "Answer clearly, with a balanced level of useful detail.";
+  }
+
+  // ▼▼▼ Same worker used for chat, image edits, and image generation ▼▼▼
+  const WORKER_URL = "https://formen-ai-backend.devjiban321.workers.dev";
+
+  async function sendMessage(){
+    const text = els.input.value.trim();
+    if(!text || state.isSending) return;
+    if(!state.premiumForAll && state.messagesUsed >= state.freeLimit){
+      renderPlanCard();
+      return;
+    }
+
+    const isEditing = !!state.pendingImage;
+    const isGenerating = state.generateImageMode;
+    const attachedImage = state.pendingImage; // capture before clearing
+
+    els.input.value = "";
+    autoResize();
+
+    if(isEditing){
+      addMessage("user", text, attachedImage.dataUrl);
+    } else {
+      addMessage("user", text);
+    }
+    state.history.push({role: "user", content: text});
+    state.analytics.messagesSentTotal += 1;
+
+    // reset composer modes now that we've captured what we need
+    state.pendingImage = null;
+    state.generateImageMode = false;
+    renderModeUI();
+
+    state.isSending = true;
+    renderPlanCard();
+    addTyping();
+
+    try{
+      if(isEditing){
+        await handleImageEdit(text, attachedImage);
+      } else if(isGenerating){
+        await handleImageGenerate(text);
+      } else {
+        await handleChat();
+      }
+      if(!state.premiumForAll){
+        state.messagesUsed += 1;
+      }
+    } catch(err){
+      removeTyping();
+      addMessage("ai", "Something went wrong reaching the model. Please try again.");
+      console.error(err);
+    } finally {
+      state.isSending = false;
+      renderPlanCard();
+    }
+  }
+
+  async function handleChat(){
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: state.history,
+        system: detailSystemPrompt(),
+        email: state.userEmail || "anonymous"
+      })
+    });
+    const data = await response.json();
+    removeTyping();
+
+    const answer = (data && data.answer) ? data.answer : "Sorry, I couldn't generate a response just now.";
+    addMessage("ai", answer);
+    state.history.push({role: "assistant", content: answer});
+  }
+
+  async function handleImageGenerate(prompt){
+    const response = await fetch(WORKER_URL + "/generate-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, email: state.userEmail || "anonymous" })
+    });
+    const data = await response.json();
+    removeTyping();
+
+    if(data && data.imageDataUrl){
+      addMessage("ai", "Here's what I generated:", data.imageDataUrl);
+      state.history.push({role: "assistant", content: "[generated an image for: " + prompt + "]"});
+    } else {
+      addMessage("ai", (data && data.error) ? `Couldn't generate that image: ${data.error}` : "Couldn't generate that image.");
+    }
+  }
+
+  async function handleImageEdit(prompt, image){
+    const response = await fetch(WORKER_URL + "/edit-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt,
+        imageBase64: image.base64,
+        mimeType: image.mimeType,
+        email: state.userEmail || "anonymous"
+      })
+    });
+    const data = await response.json();
+    removeTyping();
+
+    if(data && data.imageDataUrl){
+      addMessage("ai", "Here's the edited image:", data.imageDataUrl);
+      state.history.push({role: "assistant", content: "[edited an uploaded image: " + prompt + "]"});
+    } else {
+      addMessage("ai", (data && data.error) ? `Couldn't edit that image: ${data.error}` : "Couldn't edit that image.");
+    }
+  }
+
+  // ---------- Admin panel ----------
+  // The ⚙ button only appears when the email entered matches ADMIN_EMAILS (auto-unlocked).
+  // Ctrl+Shift+A / Cmd+Shift+A is a hidden fallback that still requires the password.
+  function openAdminOverlay(){
+    els.overlay.style.display = "flex";
+    if(state.isAdminUnlocked){
+      showControls();
+    } else {
+      els.loginView.style.display = "block";
+      els.controlsView.style.display = "none";
+      els.pinInput.value = "";
+      els.pinError.style.display = "none";
+      els.pinInput.focus();
+    }
+  }
+  els.adminBtn.addEventListener("click", openAdminOverlay);
+  document.addEventListener("keydown", (e) => {
+    if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a"){
+      e.preventDefault();
+      openAdminOverlay();
+    }
+  });
+
+  function hideOverlay(){
+    els.overlay.style.display = "none";
+    if(analyticsInterval){ clearInterval(analyticsInterval); analyticsInterval = null; }
+  }
+  els.overlay.addEventListener("click", (e) => {
+    if(e.target === els.overlay) hideOverlay();
+  });
+  els.closeAdmin.addEventListener("click", hideOverlay);
+
+  function tryPin(){
+    if(els.pinInput.value === state.adminPin){
+      state.isAdminUnlocked = true;
+      showControls();
+    } else {
+      els.pinError.style.display = "block";
+      els.pinInput.value = "";
+      els.pinInput.focus();
+    }
+  }
+  els.pinSubmit.addEventListener("click", tryPin);
+  els.pinInput.addEventListener("keydown", (e) => { if(e.key === "Enter") tryPin(); });
+
+  function showControls(){
+    els.loginView.style.display = "none";
+    els.controlsView.style.display = "block";
+    // sync controls to current state
+    setSwitch(state.premiumForAll);
+    els.limitInput.value = state.freeLimit;
+    els.toneSelect.value = state.detailLevel;
+    renderFeatureOverview();
+    renderAnalytics();
+    loadAllVisitors();
+    if(analyticsInterval) clearInterval(analyticsInterval);
+    analyticsInterval = setInterval(renderAnalytics, 1000);
+  }
+
+  // ---- Permanent, cross-device visitor log (from your Cloudflare Worker) ----
+  // Fill these in once your worker.js is deployed and its KV log is set up.
+  const BACKEND_ADMIN_URL = "https://formen-ai-backend.devjiban321.workers.dev/admin/log";
+  const BACKEND_ADMIN_SECRET = "jarvis123"; // must match ADMIN_SECRET in the worker
+
+  async function loadAllVisitors(){
+    const box = document.getElementById("allVisitors");
+    if(!box) return;
+    if(BACKEND_ADMIN_URL.includes("YOUR-WORKER-NAME")){
+      box.innerHTML = `<div class="overview-row"><span class="k">Not connected yet — add your Worker URL and admin secret in the code.</span></div>`;
+      return;
+    }
+    box.innerHTML = `<div class="overview-row"><span class="k">Loading…</span></div>`;
+    try{
+      const res = await fetch(`${BACKEND_ADMIN_URL}?secret=${encodeURIComponent(BACKEND_ADMIN_SECRET)}`);
+      const data = await res.json();
+      if(data.error){
+        box.innerHTML = `<div class="overview-row"><span class="k">${data.error}</span></div>`;
+        return;
+      }
+      if(!data.visitors || data.visitors.length === 0){
+        box.innerHTML = `<div class="overview-row"><span class="k">No visitors logged yet</span></div>`;
+        return;
+      }
+      box.innerHTML = data.visitors.map(v => `
+        <div class="overview-row" style="flex-direction:column; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="v">${v.email}</span>
+            <span class="k">${v.messageCount} question${v.messageCount === 1 ? "" : "s"}</span>
+          </div>
+          <span class="k" style="font-size:11px;">Last asked: ${v.questions && v.questions.length ? v.questions[v.questions.length - 1].question : "—"}</span>
+        </div>`).join("");
+    } catch(err){
+      box.innerHTML = `<div class="overview-row"><span class="k">Couldn't reach the backend.</span></div>`;
+    }
+  }
+
+  function setSwitch(on){
+    state.premiumForAll = on;
+    els.premiumSwitch.classList.toggle("on", on);
+    els.premiumStateLabel.textContent = on ? "ON" : "OFF";
+    renderPlanCard();
+    if(state.isAdminUnlocked) renderFeatureOverview();
+  }
+  els.premiumSwitch.addEventListener("click", () => setSwitch(!state.premiumForAll));
+
+  els.limitInput.addEventListener("change", () => {
+    let v = parseInt(els.limitInput.value, 10);
+    if(isNaN(v) || v < 1) v = 1;
+    if(v > 200) v = 200;
+    els.limitInput.value = v;
+    state.freeLimit = v;
+    renderPlanCard();
+    renderFeatureOverview();
+  });
+
+  els.toneSelect.addEventListener("change", () => {
+    state.detailLevel = els.toneSelect.value;
+    renderFeatureOverview();
+  });
+
+  els.savePin.addEventListener("click", () => {
+    const v = els.newPin.value.trim();
+    if(v.length >= 4){
+      state.adminPin = v;
+      els.newPin.value = "";
+      els.newPin.placeholder = "Password updated ✓";
+    } else {
+      els.newPin.placeholder = "Must be at least 4 characters";
+    }
+  });
+
+  // ---------- Init ----------
+  renderPlanCard();
+</script>
+
+</body>
+</html>
