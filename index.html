@@ -150,6 +150,90 @@
   .usage-fill{ height:100%; background: var(--accent); transition: width .3s ease; }
   .usage-text{ font-size: 11px; color: var(--muted); font-family:'JetBrains Mono', monospace; }
 
+  .view-plans-link{
+    margin-top: 10px;
+    width:100%;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    padding: 0;
+    font-size: 12px;
+    font-weight:600;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Inter';
+  }
+  .view-plans-link:hover{ text-decoration: underline; }
+
+  .revoke-btn{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--danger);
+    padding: 3px 9px;
+    border-radius: 8px;
+    font-size: 11px;
+    cursor:pointer;
+    font-family: 'Inter';
+  }
+  .revoke-btn:hover{ background: rgba(220, 38, 38, 0.08); }
+
+  .grant-row{ display:flex; gap:8px; margin-top: 8px; }
+  .grant-row input{
+    flex:1;
+    background: var(--panel);
+    border:1px solid var(--line);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-family:'Inter';
+    font-size: 13px;
+    outline:none;
+  }
+  .grant-row input:focus{ border-color: var(--accent); }
+  .grant-row button{
+    background: var(--accent);
+    color: var(--accent-text);
+    border:none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight:600;
+    font-size: 12.5px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  #premiumUsersList{ margin-top: 10px; }
+
+  /* ---------- Subscription / pricing page ---------- */
+  .pricing-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .price-card{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 14px;
+    background: var(--panel-2);
+  }
+  .price-card.highlight{ border-color: var(--accent); background: rgba(37, 99, 235, 0.06); }
+  .price-card .tier{ font-family:'Fraunces', serif; font-size: 16px; font-weight:600; margin-bottom:2px; }
+  .price-card .cost{ font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .price-card ul{ margin:0; padding-left: 18px; font-size: 12.5px; line-height: 1.9; color: var(--text); }
+  .sub-cta{
+    width:100%;
+    background: var(--accent);
+    color: var(--accent-text);
+    border:none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight:600;
+    font-size: 13.5px;
+    cursor:pointer;
+    margin-top: 6px;
+  }
+  .sub-note{ font-size: 11.5px; color: var(--muted); text-align:center; margin-top:10px; line-height:1.6; }
+
   .admin-toggle-btn{
     margin-top: 10px;
     width:100%;
@@ -624,6 +708,7 @@
     <div class="plan-desc" id="planDesc">Loading…</div>
     <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width:0%"></div></div>
     <div class="usage-text" id="usageText">—</div>
+    <button class="view-plans-link" id="viewPlansBtn" type="button">View premium plans →</button>
   </div>
   <button class="admin-toggle-btn" id="adminBtn" style="display:none;">⚙ Admin panel</button>
 </div>
@@ -644,7 +729,7 @@
       <div class="empty-state" id="emptyState">
         <div class="glyph">F</div>
         <h2>What do you want to know?</h2>
-        <p>Type a question below and Formen AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p>
+        <p id="emptyStateDesc">Type a question below and Formen AI will answer.</p>
         <div class="credit-line">Made by Mr. Jiban Krushna Patro</div>
       </div>
     </div>
@@ -737,6 +822,17 @@
       </div>
 
       <div class="control">
+        <div class="ctitle">Give premium to specific people</div>
+        <div class="cdesc">Grant premium to one person by email, without turning it on for everyone. Works even when the switch above is off.</div>
+        <div class="grant-row">
+          <input type="email" id="grantEmailInput" placeholder="person@example.com" autocomplete="off">
+          <button id="grantEmailBtn" type="button">Grant</button>
+        </div>
+        <div class="pin-error" id="grantEmailError" style="display:none;">Enter a valid email address.</div>
+        <div id="premiumUsersList" class="overview-list"></div>
+      </div>
+
+      <div class="control">
         <div class="ctitle">Free-tier message limit</div>
         <div class="cdesc">How many messages a non-premium user gets per session. Only matters when free premium is off.</div>
         <div class="number-row">
@@ -771,6 +867,45 @@
   </div>
 </div>
 
+<!-- Subscription / plans overlay (user-facing) -->
+<div class="overlay" id="subscriptionOverlay" style="display:none;">
+  <div class="admin-panel" style="width:460px;">
+    <h2>✨ Formen AI Premium</h2>
+    <div class="lead">See what's included on each plan.</div>
+    <div class="row" style="display:flex; justify-content:flex-start; margin-bottom:4px;">
+      <span class="plan-badge" id="subStatusBadge">—</span>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="tier">Free</div>
+        <div class="cost">Limited messages / session</div>
+        <ul>
+          <li>Chat with Formen AI</li>
+          <li>Capped questions per session</li>
+          <li>Concise answers</li>
+        </ul>
+      </div>
+      <div class="price-card highlight">
+        <div class="tier">Premium</div>
+        <div class="cost">Free — by admin invite</div>
+        <ul>
+          <li>Unlimited messages</li>
+          <li>Detailed, thorough answers</li>
+          <li>Image generation &amp; editing</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="sub-cta" id="subCtaBtn" type="button">Request Premium access</button>
+    <div class="sub-note">There's no payment on this app — Premium is switched on by the admin, either for everyone or for individual people by email. Tapping the button above opens an email to request access.</div>
+
+    <div class="admin-footer">
+      <button class="logout" id="closeSubscription">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // Only these emails ever get the admin panel — everyone else never sees it.
   const ADMIN_EMAILS = ["devjiban321@gmail.com", "jibankrushnapatro58@gmail.com"];
@@ -782,6 +917,7 @@
     premiumForAll: true,      // "premium included for free" — on by default per request
     freeLimit: 10,
     detailLevel: "balanced",  // concise | balanced | detailed
+    premiumUsers: [],         // emails (lowercase) individually granted premium by the admin
     messagesUsed: 0,
     history: [],              // {role, content}
     isSending: false,
@@ -796,6 +932,46 @@
       visitorLog: []
     }
   };
+
+  // ---------- Persisted settings (this browser only) ----------
+  // Keeps admin choices (who has premium, limits, etc.) alive across page
+  // reloads on this device. For settings that need to follow a user to a
+  // different device, the Worker/KV backend (see BACKEND_ADMIN_URL below)
+  // is the real fix — this is a solid local fallback in the meantime.
+  const SETTINGS_KEY = "formenAiAdminSettings";
+  function saveSettings(){
+    try{
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+        adminPin: state.adminPin,
+        premiumForAll: state.premiumForAll,
+        freeLimit: state.freeLimit,
+        detailLevel: state.detailLevel,
+        premiumUsers: state.premiumUsers
+      }));
+    } catch(err){ /* localStorage unavailable — settings just won't persist */ }
+  }
+  function loadSettings(){
+    try{
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if(!raw) return;
+      const saved = JSON.parse(raw);
+      if(typeof saved.adminPin === "string") state.adminPin = saved.adminPin;
+      if(typeof saved.premiumForAll === "boolean") state.premiumForAll = saved.premiumForAll;
+      if(typeof saved.freeLimit === "number") state.freeLimit = saved.freeLimit;
+      if(typeof saved.detailLevel === "string") state.detailLevel = saved.detailLevel;
+      if(Array.isArray(saved.premiumUsers)) state.premiumUsers = saved.premiumUsers;
+    } catch(err){ /* ignore corrupt/blocked storage */ }
+  }
+  loadSettings();
+
+  // True if the given email (or the current visitor, if no email passed) has premium —
+  // either because premium is on for everyone, or because the admin granted it individually.
+  function isPremiumEmail(email){
+    if(state.premiumForAll) return true;
+    const e = (email || state.userEmail || "").toLowerCase().trim();
+    return !!e && state.premiumUsers.includes(e);
+  }
+  function userIsPremium(){ return isPremiumEmail(state.userEmail); }
 
   const $ = (id) => document.getElementById(id);
 
@@ -840,7 +1016,17 @@
     emailError: $("emailError"),
     emailSubmit: $("emailSubmit"),
     visitorLog: $("visitorLog"),
-    adminBtn: $("adminBtn")
+    adminBtn: $("adminBtn"),
+    grantEmailInput: $("grantEmailInput"),
+    grantEmailBtn: $("grantEmailBtn"),
+    grantEmailError: $("grantEmailError"),
+    premiumUsersList: $("premiumUsersList"),
+    viewPlansBtn: $("viewPlansBtn"),
+    subscriptionOverlay: $("subscriptionOverlay"),
+    closeSubscription: $("closeSubscription"),
+    subStatusBadge: $("subStatusBadge"),
+    subCtaBtn: $("subCtaBtn"),
+    emptyStateDesc: $("emptyStateDesc")
   };
 
   function submitEmail(){
@@ -860,6 +1046,7 @@
     }
 
     if(state.isAdminUnlocked){ renderFeatureOverview(); renderAnalytics(); }
+    renderPlanCard();
     els.input.focus();
   }
   els.emailSubmit.addEventListener("click", submitEmail);
@@ -878,6 +1065,8 @@
     const rows = [
       ["Current visitor's email", state.userEmail || "(not entered yet)", ""],
       ["Premium for everyone", state.premiumForAll ? "ON" : "OFF", state.premiumForAll ? "on" : "off"],
+      ["This visitor's plan", userIsPremium() ? "PREMIUM" : "FREE", userIsPremium() ? "on" : "off"],
+      ["Individually granted premium users", String(state.premiumUsers.length), ""],
       ["Free-tier message limit", state.freeLimit + " / session", ""],
       ["Answer detail level", state.detailLevel, ""],
       ["Messages used (free tier, this session)", String(state.messagesUsed), ""],
@@ -904,7 +1093,7 @@
       [String(state.analytics.messagesSentTotal), "Messages sent"],
       [String(state.analytics.newChatsStarted), "New chats started"],
       [duration, "Session duration"],
-      [state.premiumForAll ? "0" : String(Math.max(0, state.freeLimit - state.messagesUsed)), "Free msgs remaining"]
+      [userIsPremium() ? "0" : String(Math.max(0, state.freeLimit - state.messagesUsed)), "Free msgs remaining"]
     ];
     els.analyticsGrid.innerHTML = stats.map(([num, lbl]) => `
       <div class="stat-card">
@@ -926,18 +1115,21 @@
   }
 
   function renderPlanCard(){
-    if(state.premiumForAll){
+    const premium = userIsPremium();
+    if(premium){
       els.planBadge.textContent = "PREMIUM";
       els.planBadge.className = "plan-badge premium";
-      els.planDesc.textContent = "Unlimited messages and detailed answers — free, courtesy of the admin.";
+      els.planDesc.textContent = state.premiumForAll
+        ? "Unlimited messages and detailed answers — free, courtesy of the admin."
+        : "Unlimited messages and detailed answers — granted to you personally by the admin.";
       els.usageFill.style.width = "100%";
       els.usageText.textContent = "Unlimited";
       els.limitNote.innerHTML = "";
-      els.topSub.textContent = "Premium is on for everyone right now.";
+      els.topSub.textContent = state.premiumForAll ? "Premium is on for everyone right now." : "You have premium access.";
     } else {
       els.planBadge.textContent = "FREE";
       els.planBadge.className = "plan-badge free";
-      els.planDesc.textContent = "Limited messages per session. Ask the admin to enable free premium.";
+      els.planDesc.textContent = "Limited messages per session. View plans to see what premium unlocks.";
       const pct = Math.min(100, (state.messagesUsed / state.freeLimit) * 100);
       els.usageFill.style.width = pct + "%";
       els.usageText.textContent = `${state.messagesUsed} / ${state.freeLimit} used`;
@@ -947,7 +1139,13 @@
         : `You've used all your free messages this session.`;
       els.topSub.textContent = "Running on the free plan.";
     }
-    els.sendBtn.disabled = state.isSending || (!state.premiumForAll && state.messagesUsed >= state.freeLimit);
+    els.sendBtn.disabled = state.isSending || (!premium && state.messagesUsed >= state.freeLimit);
+    if(els.viewPlansBtn) els.viewPlansBtn.textContent = premium ? "View plan details →" : "View premium plans →";
+    if(els.emptyStateDesc){
+      els.emptyStateDesc.textContent = premium
+        ? "Type a question below and Formen AI will answer. You have premium access."
+        : "Type a question below and Formen AI will answer. Tap \"View premium plans\" in the sidebar to see what premium unlocks.";
+    }
   }
 
   function autoResize(){
@@ -1139,10 +1337,7 @@
   }
 
   function detailSystemPrompt(){
-    if(!state.premiumForAll && state.detailLevel !== "detailed"){
-      // free-tier answers are trimmed unless admin gives everyone premium
-    }
-    const level = state.premiumForAll ? state.detailLevel : "concise";
+    const level = userIsPremium() ? state.detailLevel : "concise";
     if(level === "concise") return "Answer clearly and concisely. Keep responses short and to the point.";
     if(level === "detailed") return "Answer thoroughly with useful detail, examples, and context, as a premium in-depth assistant would.";
     return "Answer clearly, with a balanced level of useful detail.";
@@ -1154,7 +1349,7 @@
   async function sendMessage(){
     const text = els.input.value.trim();
     if(!text || state.isSending) return;
-    if(!state.premiumForAll && state.messagesUsed >= state.freeLimit){
+    if(!userIsPremium() && state.messagesUsed >= state.freeLimit){
       renderPlanCard();
       return;
     }
@@ -1191,7 +1386,7 @@
       } else {
         await handleChat();
       }
-      if(!state.premiumForAll){
+      if(!userIsPremium()){
         state.messagesUsed += 1;
       }
     } catch(err){
@@ -1314,6 +1509,7 @@
     els.limitInput.value = state.freeLimit;
     els.toneSelect.value = state.detailLevel;
     renderFeatureOverview();
+    renderPremiumUsersList();
     renderAnalytics();
     loadAllVisitors();
     if(analyticsInterval) clearInterval(analyticsInterval);
@@ -1363,6 +1559,7 @@
     els.premiumStateLabel.textContent = on ? "ON" : "OFF";
     renderPlanCard();
     if(state.isAdminUnlocked) renderFeatureOverview();
+    saveSettings();
   }
   els.premiumSwitch.addEventListener("click", () => setSwitch(!state.premiumForAll));
 
@@ -1374,11 +1571,13 @@
     state.freeLimit = v;
     renderPlanCard();
     renderFeatureOverview();
+    saveSettings();
   });
 
   els.toneSelect.addEventListener("change", () => {
     state.detailLevel = els.toneSelect.value;
     renderFeatureOverview();
+    saveSettings();
   });
 
   els.savePin.addEventListener("click", () => {
@@ -1387,9 +1586,77 @@
       state.adminPin = v;
       els.newPin.value = "";
       els.newPin.placeholder = "Password updated ✓";
+      saveSettings();
     } else {
       els.newPin.placeholder = "Must be at least 4 characters";
     }
+  });
+
+  // ---------- Grant / revoke premium for individual people ----------
+  function normalizeEmail(v){ return v.trim().toLowerCase(); }
+
+  function renderPremiumUsersList(){
+    if(!els.premiumUsersList) return;
+    if(state.premiumUsers.length === 0){
+      els.premiumUsersList.innerHTML = `<div class="overview-row"><span class="k">No one has been individually granted premium yet</span></div>`;
+      return;
+    }
+    els.premiumUsersList.innerHTML = state.premiumUsers.map(email => `
+      <div class="overview-row">
+        <span class="v">${email}</span>
+        <button class="revoke-btn" data-email="${email}" type="button">Revoke</button>
+      </div>`).join("");
+    els.premiumUsersList.querySelectorAll(".revoke-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const email = btn.getAttribute("data-email");
+        state.premiumUsers = state.premiumUsers.filter(e => e !== email);
+        renderPremiumUsersList();
+        renderPlanCard();
+        renderFeatureOverview();
+        saveSettings();
+      });
+    });
+  }
+
+  function grantPremium(){
+    const v = normalizeEmail(els.grantEmailInput.value);
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if(!valid){
+      els.grantEmailError.style.display = "block";
+      return;
+    }
+    els.grantEmailError.style.display = "none";
+    if(!state.premiumUsers.includes(v)) state.premiumUsers.push(v);
+    els.grantEmailInput.value = "";
+    renderPremiumUsersList();
+    renderPlanCard();
+    renderFeatureOverview();
+    saveSettings();
+  }
+  els.grantEmailBtn.addEventListener("click", grantPremium);
+  els.grantEmailInput.addEventListener("keydown", (e) => { if(e.key === "Enter") grantPremium(); });
+
+  // ---------- Subscription / plans page ----------
+  function renderSubscriptionOverlay(){
+    const premium = userIsPremium();
+    els.subStatusBadge.textContent = premium ? "You have Premium" : "You're on the Free plan";
+    els.subStatusBadge.className = "plan-badge " + (premium ? "premium" : "free");
+    els.subCtaBtn.style.display = premium ? "none" : "inline-block";
+  }
+  function openSubscriptionOverlay(){
+    renderSubscriptionOverlay();
+    els.subscriptionOverlay.style.display = "flex";
+  }
+  function closeSubscriptionOverlay(){ els.subscriptionOverlay.style.display = "none"; }
+  els.viewPlansBtn.addEventListener("click", openSubscriptionOverlay);
+  els.closeSubscription.addEventListener("click", closeSubscriptionOverlay);
+  els.subscriptionOverlay.addEventListener("click", (e) => {
+    if(e.target === els.subscriptionOverlay) closeSubscriptionOverlay();
+  });
+  els.subCtaBtn.addEventListener("click", () => {
+    const subject = encodeURIComponent("Requesting Formen AI Premium access");
+    const body = encodeURIComponent(`Hi,\n\nCould you upgrade my Formen AI account to Premium?\n\nMy email: ${state.userEmail || "(enter the email you signed in with)"}\n\nThanks!`);
+    window.location.href = `mailto:devjiban321@gmail.com?subject=${subject}&body=${body}`;
   });
 
   // ---------- Init ----------
