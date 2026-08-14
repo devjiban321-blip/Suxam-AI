@@ -8,17 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0a0a0f;
-    --panel: rgba(26, 22, 37, 0.55);
-    --panel-2: rgba(38, 32, 54, 0.55);
-    --line: rgba(255, 255, 255, 0.08);
-    --text: #f1eef7;
-    --muted: #9b95b3;
-    --accent: #e8a33d;
-    --accent-dim: #6b5024;
-    --accent-text: #1a1408;
-    --success: #6fbf8b;
-    --danger: #d9695f;
+    --bg: #ffffff;
+    --panel: rgba(246, 248, 252, 0.85);
+    --panel-2: rgba(240, 244, 250, 0.9);
+    --line: rgba(15, 23, 42, 0.08);
+    --text: #10131a;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-dim: #bfdbfe;
+    --accent-text: #ffffff;
+    --success: #16a34a;
+    --danger: #dc2626;
   }
   *{ box-sizing: border-box; }
   html,body{ height:100%; }
@@ -41,26 +41,26 @@
   .bg-glow span{
     position: absolute;
     border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.55;
+    filter: blur(100px);
+    opacity: 0.35;
   }
   .bg-glow .blob-1{
     width: 620px; height: 620px;
-    top: -220px; left: -160px;
-    background: radial-gradient(circle at 30% 30%, #3b82f6, transparent 70%);
+    top: -260px; left: -200px;
+    background: radial-gradient(circle at 30% 30%, #93c5fd, transparent 70%);
     animation: drift1 26s ease-in-out infinite alternate;
   }
   .bg-glow .blob-2{
     width: 560px; height: 560px;
-    bottom: -240px; right: -180px;
-    background: radial-gradient(circle at 60% 40%, #f97316, transparent 70%);
+    bottom: -260px; right: -200px;
+    background: radial-gradient(circle at 60% 40%, #bfdbfe, transparent 70%);
     animation: drift2 30s ease-in-out infinite alternate;
   }
   .bg-glow .blob-3{
     width: 480px; height: 480px;
     top: 30%; left: 40%;
-    background: radial-gradient(circle at 50% 50%, #60a5fa, transparent 70%);
-    opacity: 0.28;
+    background: radial-gradient(circle at 50% 50%, #dbeafe, transparent 70%);
+    opacity: 0.5;
     animation: drift3 34s ease-in-out infinite alternate;
   }
   @keyframes drift1{ from{ transform: translate(0,0); } to{ transform: translate(60px, 40px); } }
@@ -77,7 +77,7 @@
   .sidebar{
     width: 260px;
     min-width: 260px;
-    background: rgba(20, 17, 28, 0.55);
+    background: rgba(250, 251, 253, 0.85);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-right: 1px solid var(--line);
@@ -185,7 +185,7 @@
     padding: 16px 26px;
     border-bottom: 1px solid var(--line);
     display:flex; align-items:center; justify-content:space-between;
-    background: rgba(10, 10, 15, 0.35);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -265,7 +265,7 @@
   .composer-wrap{
     padding: 16px 26px 22px 26px;
     border-top: 1px solid var(--line);
-    background: rgba(10, 10, 15, 0.35);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -375,7 +375,7 @@
   /* ---------- Admin panel ---------- */
   .overlay{
     position: fixed; inset:0;
-    background: rgba(5, 5, 10, 0.65);
+    background: rgba(15, 23, 42, 0.35);
     backdrop-filter: blur(4px);
     display:flex; align-items:center; justify-content:center;
     z-index: 50;
@@ -385,7 +385,7 @@
     max-width: 92vw;
     max-height: 86vh;
     overflow-y:auto;
-    background: rgba(24, 20, 33, 0.75);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid var(--line);
@@ -532,6 +532,72 @@
     cursor:pointer;
   }
   .logout:hover{ border-color: var(--danger); color: var(--danger); }
+  /* ---------- Hamburger (mobile menu button) ---------- */
+  .hamburger-btn{
+    display:none;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    margin-right: 8px;
+  }
+  .hamburger-btn:hover{ background: rgba(0,0,0,0.05); }
+
+  .sidebar-backdrop{
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 39;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .sidebar-backdrop.visible{ display:block; opacity:1; }
+
+  /* ---------- Mobile layout ---------- */
+  @media (max-width: 760px){
+    .hamburger-btn{ display:flex; }
+
+    .sidebar{
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 82vw;
+      max-width: 320px;
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform .28s ease;
+      box-shadow: 2px 0 24px rgba(0,0,0,0.15);
+    }
+    .sidebar.open{ transform: translateX(0); }
+
+    .topbar h1{ font-size: 16px; }
+    .topbar .sub{ font-size: 11px; }
+    .topbar{ padding: 12px 14px; }
+
+    .chat-inner{ padding: 0 14px; }
+
+    /* Bigger, easier-to-tap composer on mobile */
+    .composer-wrap{ padding: 12px 12px 18px 12px; }
+    .composer{
+      padding: 14px 12px 14px 18px;
+      border-radius: 20px;
+      gap: 12px;
+    }
+    .composer textarea{
+      font-size: 16.5px;
+      line-height: 1.6;
+      max-height: 180px;
+      padding: 8px 0;
+    }
+    .tool-btn{ width: 42px; height: 42px; }
+    .tool-btn svg{ width: 20px; height: 20px; }
+    .send-btn{ width: 44px; height: 44px; border-radius: 12px; }
+    .send-btn svg{ width: 19px; height: 19px; }
+  }
 </style>
 </head>
 <body>
@@ -542,7 +608,8 @@
   <span class="blob-3"></span>
 </div>
 
-<div class="sidebar">
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<div class="sidebar" id="sidebar">
   <div class="brand">
     <div class="brand-mark">F</div>
     <div class="brand-name">Formen AI</div>
@@ -563,6 +630,9 @@
 
 <div class="main">
   <div class="topbar">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
     <div>
       <h1>Ask Formen AI anything</h1>
       <div class="sub" id="topSub">Real answers, powered live.</div>
@@ -754,6 +824,9 @@
     savePin: $("savePin"),
     closeAdmin: $("closeAdmin"),
     newChatBtn: $("newChatBtn"),
+    sidebar: $("sidebar"),
+    hamburgerBtn: $("hamburgerBtn"),
+    sidebarBackdrop: $("sidebarBackdrop"),
     attachBtn: $("attachBtn"),
     fileInput: $("fileInput"),
     genImgBtn: $("genImgBtn"),
@@ -896,7 +969,50 @@
     els.chatInner.innerHTML = "";
     els.chatInner.appendChild(els.emptyState);
     els.emptyState.style.display = "block";
+    closeSidebar();
   });
+
+  // ---------- Mobile sidebar (tap + swipe) ----------
+  function openSidebar(){
+    els.sidebar.classList.add("open");
+    els.sidebarBackdrop.classList.add("visible");
+  }
+  function closeSidebar(){
+    els.sidebar.classList.remove("open");
+    els.sidebarBackdrop.classList.remove("visible");
+  }
+  function toggleSidebar(){
+    if(els.sidebar.classList.contains("open")) closeSidebar();
+    else openSidebar();
+  }
+  els.hamburgerBtn.addEventListener("click", toggleSidebar);
+  els.sidebarBackdrop.addEventListener("click", closeSidebar);
+
+  // Swipe left→right anywhere near the left edge opens the menu;
+  // swiping left while it's open closes it — same feel as ChatGPT's app.
+  let touchStartX = 0, touchStartY = 0, touchTracking = false;
+  document.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+    const sidebarOpen = els.sidebar.classList.contains("open");
+    // Only track swipes starting near the left edge (to open) or anywhere while open (to close)
+    touchTracking = touchStartX < 28 || sidebarOpen;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    if(!touchTracking) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+    if(Math.abs(dy) > Math.abs(dx)) return; // vertical scroll, ignore
+
+    const sidebarOpen = els.sidebar.classList.contains("open");
+    if(!sidebarOpen && dx > 60) openSidebar();
+    if(sidebarOpen && dx < -60) closeSidebar();
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => { touchTracking = false; });
 
   // ---------- Image attach (edit mode) ----------
   els.attachBtn.addEventListener("click", () => els.fileInput.click());
@@ -905,15 +1021,40 @@
     if(!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      const dataUrl = reader.result;
-      const base64 = dataUrl.split(",")[1];
-      state.pendingImage = { dataUrl, base64, mimeType: file.type };
-      state.generateImageMode = false; // attach + generate are mutually exclusive
-      renderModeUI();
+      shrinkImage(reader.result, 640, 0.75).then((resizedDataUrl) => {
+        const base64 = resizedDataUrl.split(",")[1];
+        state.pendingImage = { dataUrl: resizedDataUrl, base64, mimeType: "image/jpeg" };
+        state.generateImageMode = false; // attach + generate are mutually exclusive
+        renderModeUI();
+      });
     };
     reader.readAsDataURL(file);
     els.fileInput.value = "";
   });
+
+  // Shrinks + re-compresses an image so it's small enough for the free image model to accept.
+  // maxDimension: longest side in pixels. quality: JPEG quality 0–1.
+  function shrinkImage(dataUrl, maxDimension, quality){
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if(width > height && width > maxDimension){
+          height = Math.round(height * (maxDimension / width));
+          width = maxDimension;
+        } else if(height > maxDimension){
+          width = Math.round(width * (maxDimension / height));
+          height = maxDimension;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = dataUrl;
+    });
+  }
 
   function removePendingImage(){
     state.pendingImage = null;
@@ -1135,7 +1276,7 @@
       els.pinInput.focus();
     }
   }
-  els.adminBtn.addEventListener("click", openAdminOverlay);
+  els.adminBtn.addEventListener("click", () => { closeSidebar(); openAdminOverlay(); });
   document.addEventListener("keydown", (e) => {
     if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a"){
       e.preventDefault();
