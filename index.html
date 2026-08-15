@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0047)file:///C:/Users/DELL/Downloads/chat-app_5.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formen AI — Ask Anything</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Suxam AI — Ask Anything</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Suxam AI — Ask Anything_files/css2" rel="stylesheet">
+<script src="./Suxam AI — Ask Anything_files/client" async="" defer=""></script>
 <style>
   :root{
     --bg: #ffffff;
@@ -149,90 +150,6 @@
   .usage-bar{ height:6px; background:#2b3046; border-radius:4px; overflow:hidden; margin-bottom:6px; }
   .usage-fill{ height:100%; background: var(--accent); transition: width .3s ease; }
   .usage-text{ font-size: 11px; color: var(--muted); font-family:'JetBrains Mono', monospace; }
-
-  .view-plans-link{
-    margin-top: 10px;
-    width:100%;
-    background: transparent;
-    border: none;
-    color: var(--accent);
-    padding: 0;
-    font-size: 12px;
-    font-weight:600;
-    cursor:pointer;
-    text-align:left;
-    font-family:'Inter';
-  }
-  .view-plans-link:hover{ text-decoration: underline; }
-
-  .revoke-btn{
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--danger);
-    padding: 3px 9px;
-    border-radius: 8px;
-    font-size: 11px;
-    cursor:pointer;
-    font-family: 'Inter';
-  }
-  .revoke-btn:hover{ background: rgba(220, 38, 38, 0.08); }
-
-  .grant-row{ display:flex; gap:8px; margin-top: 8px; }
-  .grant-row input{
-    flex:1;
-    background: var(--panel);
-    border:1px solid var(--line);
-    color: var(--text);
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-family:'Inter';
-    font-size: 13px;
-    outline:none;
-  }
-  .grant-row input:focus{ border-color: var(--accent); }
-  .grant-row button{
-    background: var(--accent);
-    color: var(--accent-text);
-    border:none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight:600;
-    font-size: 12.5px;
-    cursor:pointer;
-    flex-shrink:0;
-  }
-  #premiumUsersList{ margin-top: 10px; }
-
-  /* ---------- Subscription / pricing page ---------- */
-  .pricing-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 16px 0;
-  }
-  .price-card{
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 16px 14px;
-    background: var(--panel-2);
-  }
-  .price-card.highlight{ border-color: var(--accent); background: rgba(37, 99, 235, 0.06); }
-  .price-card .tier{ font-family:'Fraunces', serif; font-size: 16px; font-weight:600; margin-bottom:2px; }
-  .price-card .cost{ font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  .price-card ul{ margin:0; padding-left: 18px; font-size: 12.5px; line-height: 1.9; color: var(--text); }
-  .sub-cta{
-    width:100%;
-    background: var(--accent);
-    color: var(--accent-text);
-    border:none;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-weight:600;
-    font-size: 13.5px;
-    cursor:pointer;
-    margin-top: 6px;
-  }
-  .sub-note{ font-size: 11.5px; color: var(--muted); text-align:center; margin-top:10px; line-height:1.6; }
 
   .admin-toggle-btn{
     margin-top: 10px;
@@ -683,7 +600,7 @@
     .send-btn svg{ width: 19px; height: 19px; }
   }
 </style>
-</head>
+<style id="googleidentityservice_button_styles">.qJTHM{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:Roboto-Regular,arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{overflow-wrap:break-word;word-break:break-word}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-u2z5K{height:36px;width:36px}.Bz112c-uaxL4e{border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf{border:none;margin:0;padding:0}.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u{-webkit-transition:height .2s linear;transition:height .2s linear}.P1ekSe-ZMv3u>div:first-child{background-color:#1a73e8!important;-webkit-transition:width .3s linear;transition:width .3s linear}.P1ekSe-ZMv3u>div:nth-child(2){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.P1ekSe-ZMv3u>div:nth-child(3){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{border-radius:4px;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:Google Sans,arial,sans-serif;font-size:.875rem;height:40px;letter-spacing:.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}@media screen and (preferes-contrast:more){.nsm7Bb-HzV7m-LgbsSe{color:#000}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:.875rem;height:32px;letter-spacing:.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:.6875rem;height:20px;letter-spacing:.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc{border:1px solid #8e918f;background-color:#131314;color:#e3e3e3}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{color:#fff}}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;-webkit-box-flex:1;flex-grow:1;font-family:Google Sans,arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;-webkit-box-flex:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:focus,.nsm7Bb-HzV7m-LgbsSe:hover{box-shadow:none;border-color:rgb(210,227,252);outline:none}.nsm7Bb-HzV7m-LgbsSe:focus-within{outline:2px solid #00639b;border-color:transparent}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.08)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.08)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.12)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:Roboto;font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-to915-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#c4c7c5;fill:#c4c7c5}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff,.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#000;fill:#000}}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style></head>
 <body>
 
 <div class="bg-glow">
@@ -695,42 +612,41 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 <div class="sidebar" id="sidebar">
   <div class="brand">
-    <div class="brand-mark">F</div>
-    <div class="brand-name">Formen AI</div>
+    <div class="brand-mark">S</div>
+    <div class="brand-name">Suxam AI</div>
   </div>
   <button class="new-chat" id="newChatBtn">＋ New chat</button>
 
   <div class="plan-card">
     <div class="row">
       <span class="plan-label">Your plan</span>
-      <span class="plan-badge" id="planBadge">—</span>
+      <span class="plan-badge premium" id="planBadge">PREMIUM</span>
     </div>
-    <div class="plan-desc" id="planDesc">Loading…</div>
-    <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width:0%"></div></div>
-    <div class="usage-text" id="usageText">—</div>
-    <button class="view-plans-link" id="viewPlansBtn" type="button">View premium plans →</button>
+    <div class="plan-desc" id="planDesc">Unlimited messages and detailed answers — free, courtesy of the admin.</div>
+    <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width: 100%;"></div></div>
+    <div class="usage-text" id="usageText">Unlimited</div>
   </div>
-  <button class="admin-toggle-btn" id="adminBtn" style="display:none;">⚙ Admin panel</button>
+  <button class="admin-toggle-btn" id="adminBtn" style="display: block;">⚙ Admin panel</button>
 </div>
 
 <div class="main">
   <div class="topbar">
     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
     </button>
     <div>
-      <h1>Ask Formen AI anything</h1>
-      <div class="sub" id="topSub">Real answers, powered live.</div>
+      <h1>Ask Suxam AI anything</h1>
+      <div class="sub" id="topSub">Premium is on for everyone right now.</div>
     </div>
   </div>
 
   <div class="chat-scroll" id="chatScroll">
     <div class="chat-inner" id="chatInner">
       <div class="empty-state" id="emptyState">
-        <div class="glyph">F</div>
+        <div class="glyph">S</div>
         <h2>What do you want to know?</h2>
-        <p id="emptyStateDesc">Type a question below and Formen AI will answer.</p>
-        <div class="credit-line">Made by Mr. Jiban Krushna Patro</div>
+        <p>Type a question below and Suxam AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p>
+        <div class="credit-line">Made by Mr. Jiban Krushna Patro, Mr. Saisish Das Mohapatra &amp; Mr. Mohit Ranjan Sahoo</div>
       </div>
     </div>
   </div>
@@ -739,15 +655,15 @@
     <div class="image-preview-row" id="imagePreviewRow" style="display:none;"></div>
     <div class="composer">
       <button class="tool-btn" id="attachBtn" title="Attach an image to edit" type="button">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"></path></svg>
       </button>
       <input type="file" id="fileInput" accept="image/*" style="display:none;">
       <button class="tool-btn" id="genImgBtn" title="Generate an image from your description" type="button">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="M21 15l-5-5L5 21"></path></svg>
       </button>
-      <textarea id="input" placeholder="Message Formen AI…" rows="1"></textarea>
+      <textarea id="input" placeholder="Message Suxam AI…" rows="1"></textarea>
       <button class="send-btn" id="sendBtn" title="Send">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"></path></svg>
       </button>
     </div>
     <div class="mode-note" id="modeNote"></div>
@@ -756,10 +672,19 @@
 </div>
 
 <!-- Welcome / email gate (shown once per session) -->
-<div class="overlay" id="welcomeOverlay" style="display:flex;">
+<div class="overlay" id="welcomeOverlay" style="display: none;">
   <div class="admin-panel" style="width:380px;">
-    <h2>👋 Welcome to Formen AI</h2>
-    <div class="lead">Enter your email once to start chatting. The admin can see it in the admin panel.</div>
+    <h2>👋 Welcome to Suxam AI</h2>
+    <div class="lead">Sign in once to start chatting. The admin can see it in the admin panel.</div>
+
+    <div id="googleSignInBtn" style="display:flex; justify-content:center; margin: 10px 0 16px 0;"></div>
+
+    <div style="display:flex; align-items:center; gap:10px; margin: 4px 0 14px 0;">
+      <div style="flex:1; height:1px; background:var(--line);"></div>
+      <span style="font-size:11px; color:var(--muted);">OR ENTER MANUALLY</span>
+      <div style="flex:1; height:1px; background:var(--line);"></div>
+    </div>
+
     <div class="pin-row">
       <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
     </div>
@@ -791,13 +716,57 @@
       <div class="control">
         <div class="ctitle">Current features — snapshot</div>
         <div class="cdesc">What's live right now, at a glance.</div>
-        <div id="featureOverview" class="overview-list"></div>
+        <div id="featureOverview" class="overview-list">
+      <div class="overview-row">
+        <span class="k">Current visitor's email</span>
+        <span class="v ">devjiban321@gmail.com</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Premium for everyone</span>
+        <span class="v on">ON</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Free-tier message limit</span>
+        <span class="v ">10 / session</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Answer detail level</span>
+        <span class="v ">balanced</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Messages used (free tier, this session)</span>
+        <span class="v ">0</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Admin access</span>
+        <span class="v on">email-gated + password</span>
+      </div></div>
       </div>
 
       <div class="control">
         <div class="ctitle">Live analytics</div>
         <div class="cdesc">Tracked in this browser tab only. This is a single static page with no server behind it, so it can count what happens in this session, but it can't yet see other people's devices — that needs a real backend with a database (I can help you build that next if you want it).</div>
-        <div class="analytics-grid" id="analyticsGrid"></div>
+        <div class="analytics-grid" id="analyticsGrid">
+      <div class="stat-card">
+        <div class="num">0</div>
+        <div class="lbl">Total clicks</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">0</div>
+        <div class="lbl">Messages sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">0</div>
+        <div class="lbl">New chats started</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">0m 0s</div>
+        <div class="lbl">Session duration</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">0</div>
+        <div class="lbl">Free msgs remaining</div>
+      </div></div>
       </div>
 
       <div class="control">
@@ -809,7 +778,11 @@
       <div class="control">
         <div class="ctitle">This session's visitor log</div>
         <div class="cdesc">Just what happened in this browser tab, most recent first — a quick local view alongside the permanent one above.</div>
-        <div id="visitorLog" class="overview-list"></div>
+        <div id="visitorLog" class="overview-list">
+          <div class="overview-row">
+            <span class="k">devjiban321@gmail.com</span>
+            <span class="v">8/15/2026, 2:45:42 PM</span>
+          </div></div>
       </div>
 
       <div class="control">
@@ -819,17 +792,6 @@
           <span class="usage-text" id="premiumStateLabel">ON</span>
           <div class="switch on" id="premiumSwitch"><div class="knob"></div></div>
         </div>
-      </div>
-
-      <div class="control">
-        <div class="ctitle">Give premium to specific people</div>
-        <div class="cdesc">Grant premium to one person by email, without turning it on for everyone. Works even when the switch above is off.</div>
-        <div class="grant-row">
-          <input type="email" id="grantEmailInput" placeholder="person@example.com" autocomplete="off">
-          <button id="grantEmailBtn" type="button">Grant</button>
-        </div>
-        <div class="pin-error" id="grantEmailError" style="display:none;">Enter a valid email address.</div>
-        <div id="premiumUsersList" class="overview-list"></div>
       </div>
 
       <div class="control">
@@ -846,7 +808,7 @@
         <div class="cdesc">Controls how thorough Nova's answers are for everyone.</div>
         <select class="tone-select" id="toneSelect">
           <option value="concise">Concise — short, to the point</option>
-          <option value="balanced" selected>Balanced — clear with useful detail</option>
+          <option value="balanced" selected="">Balanced — clear with useful detail</option>
           <option value="detailed">Detailed — thorough, premium-style answers</option>
         </select>
       </div>
@@ -867,45 +829,6 @@
   </div>
 </div>
 
-<!-- Subscription / plans overlay (user-facing) -->
-<div class="overlay" id="subscriptionOverlay" style="display:none;">
-  <div class="admin-panel" style="width:460px;">
-    <h2>✨ Formen AI Premium</h2>
-    <div class="lead">See what's included on each plan.</div>
-    <div class="row" style="display:flex; justify-content:flex-start; margin-bottom:4px;">
-      <span class="plan-badge" id="subStatusBadge">—</span>
-    </div>
-
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="tier">Free</div>
-        <div class="cost">Limited messages / session</div>
-        <ul>
-          <li>Chat with Formen AI</li>
-          <li>Capped questions per session</li>
-          <li>Concise answers</li>
-        </ul>
-      </div>
-      <div class="price-card highlight">
-        <div class="tier">Premium</div>
-        <div class="cost">Free — by admin invite</div>
-        <ul>
-          <li>Unlimited messages</li>
-          <li>Detailed, thorough answers</li>
-          <li>Image generation &amp; editing</li>
-        </ul>
-      </div>
-    </div>
-
-    <button class="sub-cta" id="subCtaBtn" type="button">Request Premium access</button>
-    <div class="sub-note">There's no payment on this app — Premium is switched on by the admin, either for everyone or for individual people by email. Tapping the button above opens an email to request access.</div>
-
-    <div class="admin-footer">
-      <button class="logout" id="closeSubscription">Close</button>
-    </div>
-  </div>
-</div>
-
 <script>
   // Only these emails ever get the admin panel — everyone else never sees it.
   const ADMIN_EMAILS = ["devjiban321@gmail.com", "jibankrushnapatro58@gmail.com"];
@@ -917,7 +840,6 @@
     premiumForAll: true,      // "premium included for free" — on by default per request
     freeLimit: 10,
     detailLevel: "balanced",  // concise | balanced | detailed
-    premiumUsers: [],         // emails (lowercase) individually granted premium by the admin
     messagesUsed: 0,
     history: [],              // {role, content}
     isSending: false,
@@ -932,46 +854,6 @@
       visitorLog: []
     }
   };
-
-  // ---------- Persisted settings (this browser only) ----------
-  // Keeps admin choices (who has premium, limits, etc.) alive across page
-  // reloads on this device. For settings that need to follow a user to a
-  // different device, the Worker/KV backend (see BACKEND_ADMIN_URL below)
-  // is the real fix — this is a solid local fallback in the meantime.
-  const SETTINGS_KEY = "formenAiAdminSettings";
-  function saveSettings(){
-    try{
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify({
-        adminPin: state.adminPin,
-        premiumForAll: state.premiumForAll,
-        freeLimit: state.freeLimit,
-        detailLevel: state.detailLevel,
-        premiumUsers: state.premiumUsers
-      }));
-    } catch(err){ /* localStorage unavailable — settings just won't persist */ }
-  }
-  function loadSettings(){
-    try{
-      const raw = localStorage.getItem(SETTINGS_KEY);
-      if(!raw) return;
-      const saved = JSON.parse(raw);
-      if(typeof saved.adminPin === "string") state.adminPin = saved.adminPin;
-      if(typeof saved.premiumForAll === "boolean") state.premiumForAll = saved.premiumForAll;
-      if(typeof saved.freeLimit === "number") state.freeLimit = saved.freeLimit;
-      if(typeof saved.detailLevel === "string") state.detailLevel = saved.detailLevel;
-      if(Array.isArray(saved.premiumUsers)) state.premiumUsers = saved.premiumUsers;
-    } catch(err){ /* ignore corrupt/blocked storage */ }
-  }
-  loadSettings();
-
-  // True if the given email (or the current visitor, if no email passed) has premium —
-  // either because premium is on for everyone, or because the admin granted it individually.
-  function isPremiumEmail(email){
-    if(state.premiumForAll) return true;
-    const e = (email || state.userEmail || "").toLowerCase().trim();
-    return !!e && state.premiumUsers.includes(e);
-  }
-  function userIsPremium(){ return isPremiumEmail(state.userEmail); }
 
   const $ = (id) => document.getElementById(id);
 
@@ -1016,26 +898,12 @@
     emailError: $("emailError"),
     emailSubmit: $("emailSubmit"),
     visitorLog: $("visitorLog"),
-    adminBtn: $("adminBtn"),
-    grantEmailInput: $("grantEmailInput"),
-    grantEmailBtn: $("grantEmailBtn"),
-    grantEmailError: $("grantEmailError"),
-    premiumUsersList: $("premiumUsersList"),
-    viewPlansBtn: $("viewPlansBtn"),
-    subscriptionOverlay: $("subscriptionOverlay"),
-    closeSubscription: $("closeSubscription"),
-    subStatusBadge: $("subStatusBadge"),
-    subCtaBtn: $("subCtaBtn"),
-    emptyStateDesc: $("emptyStateDesc")
+    adminBtn: $("adminBtn")
   };
 
-  function submitEmail(){
-    const v = els.emailInput.value.trim();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    if(!valid){
-      els.emailError.style.display = "block";
-      return;
-    }
+  const EMAIL_STORAGE_KEY = "suxamAI_userEmail";
+
+  function completeSignIn(v){
     state.userEmail = v;
     state.analytics.visitorLog.push({ email: v, time: new Date().toLocaleString() });
     els.welcomeOverlay.style.display = "none";
@@ -1046,11 +914,62 @@
     }
 
     if(state.isAdminUnlocked){ renderFeatureOverview(); renderAnalytics(); }
-    renderPlanCard();
+
+    // Remember this device so the welcome screen doesn't ask again next time.
+    try{ localStorage.setItem(EMAIL_STORAGE_KEY, v); } catch(e){ /* storage unavailable — will just ask again next visit */ }
+
     els.input.focus();
+  }
+
+  function submitEmail(){
+    const v = els.emailInput.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if(!valid){
+      els.emailError.style.display = "block";
+      return;
+    }
+    completeSignIn(v);
   }
   els.emailSubmit.addEventListener("click", submitEmail);
   els.emailInput.addEventListener("keydown", (e) => { if(e.key === "Enter") submitEmail(); });
+
+  // ---------- Skip the welcome screen if we already know this device's email ----------
+  try{
+    const remembered = localStorage.getItem(EMAIL_STORAGE_KEY);
+    if(remembered){
+      completeSignIn(remembered);
+    }
+  } catch(e){ /* storage unavailable — welcome screen will show as normal */ }
+
+  // ---------- Google Sign-In ----------
+  // ▼▼▼ Replace with your real Google OAuth Client ID (see setup steps) ▼▼▼
+  const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+
+  function decodeGoogleJwt(token){
+    try{
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+      return decoded.email || null;
+    } catch(e){ return null; }
+  }
+
+  function initGoogleSignIn(){
+    if(!window.google || !window.google.accounts || GOOGLE_CLIENT_ID.includes("YOUR_GOOGLE_CLIENT_ID")){
+      return; // not configured yet — manual email entry still works fine
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: (response) => {
+        const email = decodeGoogleJwt(response.credential);
+        if(email) completeSignIn(email);
+      }
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("googleSignInBtn"),
+      { theme: "outline", size: "large", shape: "pill", text: "continue_with" }
+    );
+  }
+  window.addEventListener("load", () => setTimeout(initGoogleSignIn, 300));
 
   let analyticsInterval = null;
 
@@ -1065,8 +984,6 @@
     const rows = [
       ["Current visitor's email", state.userEmail || "(not entered yet)", ""],
       ["Premium for everyone", state.premiumForAll ? "ON" : "OFF", state.premiumForAll ? "on" : "off"],
-      ["This visitor's plan", userIsPremium() ? "PREMIUM" : "FREE", userIsPremium() ? "on" : "off"],
-      ["Individually granted premium users", String(state.premiumUsers.length), ""],
       ["Free-tier message limit", state.freeLimit + " / session", ""],
       ["Answer detail level", state.detailLevel, ""],
       ["Messages used (free tier, this session)", String(state.messagesUsed), ""],
@@ -1093,7 +1010,7 @@
       [String(state.analytics.messagesSentTotal), "Messages sent"],
       [String(state.analytics.newChatsStarted), "New chats started"],
       [duration, "Session duration"],
-      [userIsPremium() ? "0" : String(Math.max(0, state.freeLimit - state.messagesUsed)), "Free msgs remaining"]
+      [state.premiumForAll ? "0" : String(Math.max(0, state.freeLimit - state.messagesUsed)), "Free msgs remaining"]
     ];
     els.analyticsGrid.innerHTML = stats.map(([num, lbl]) => `
       <div class="stat-card">
@@ -1115,21 +1032,18 @@
   }
 
   function renderPlanCard(){
-    const premium = userIsPremium();
-    if(premium){
+    if(state.premiumForAll){
       els.planBadge.textContent = "PREMIUM";
       els.planBadge.className = "plan-badge premium";
-      els.planDesc.textContent = state.premiumForAll
-        ? "Unlimited messages and detailed answers — free, courtesy of the admin."
-        : "Unlimited messages and detailed answers — granted to you personally by the admin.";
+      els.planDesc.textContent = "Unlimited messages and detailed answers — free, courtesy of the admin.";
       els.usageFill.style.width = "100%";
       els.usageText.textContent = "Unlimited";
       els.limitNote.innerHTML = "";
-      els.topSub.textContent = state.premiumForAll ? "Premium is on for everyone right now." : "You have premium access.";
+      els.topSub.textContent = "Premium is on for everyone right now.";
     } else {
       els.planBadge.textContent = "FREE";
       els.planBadge.className = "plan-badge free";
-      els.planDesc.textContent = "Limited messages per session. View plans to see what premium unlocks.";
+      els.planDesc.textContent = "Limited messages per session. Ask the admin to enable free premium.";
       const pct = Math.min(100, (state.messagesUsed / state.freeLimit) * 100);
       els.usageFill.style.width = pct + "%";
       els.usageText.textContent = `${state.messagesUsed} / ${state.freeLimit} used`;
@@ -1139,13 +1053,7 @@
         : `You've used all your free messages this session.`;
       els.topSub.textContent = "Running on the free plan.";
     }
-    els.sendBtn.disabled = state.isSending || (!premium && state.messagesUsed >= state.freeLimit);
-    if(els.viewPlansBtn) els.viewPlansBtn.textContent = premium ? "View plan details →" : "View premium plans →";
-    if(els.emptyStateDesc){
-      els.emptyStateDesc.textContent = premium
-        ? "Type a question below and Formen AI will answer. You have premium access."
-        : "Type a question below and Formen AI will answer. Tap \"View premium plans\" in the sidebar to see what premium unlocks.";
-    }
+    els.sendBtn.disabled = state.isSending || (!state.premiumForAll && state.messagesUsed >= state.freeLimit);
   }
 
   function autoResize(){
@@ -1293,7 +1201,7 @@
       els.input.placeholder = "e.g. \"a fox reading a book, watercolor style\"…";
     } else {
       els.modeNote.classList.remove("visible");
-      els.input.placeholder = "Message Formen AI…";
+      els.input.placeholder = "Message Suxam AI…";
     }
   }
 
@@ -1303,10 +1211,10 @@
     msg.className = "msg " + (role === "user" ? "user" : "ai");
     const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
     msg.innerHTML = `
-      <div class="avatar ${role === 'user' ? 'you' : 'ai'}">${role === 'user' ? 'You' : 'F'}</div>
+      <div class="avatar ${role === 'user' ? 'you' : 'ai'}">${role === 'user' ? 'You' : 'S'}</div>
       <div>
         <div class="bubble"></div>
-        <div class="meta">${role === 'user' ? 'You' : 'Formen AI'} · ${time}</div>
+        <div class="meta">${role === 'user' ? 'You' : 'Suxam AI'} · ${time}</div>
       </div>`;
     const bubble = msg.querySelector(".bubble");
     if(content) bubble.appendChild(document.createTextNode(content));
@@ -1326,7 +1234,7 @@
     msg.className = "msg ai";
     msg.id = "typingMsg";
     msg.innerHTML = `
-      <div class="avatar ai">F</div>
+      <div class="avatar ai">S</div>
       <div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
     els.chatInner.appendChild(msg);
     els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
@@ -1337,7 +1245,10 @@
   }
 
   function detailSystemPrompt(){
-    const level = userIsPremium() ? state.detailLevel : "concise";
+    if(!state.premiumForAll && state.detailLevel !== "detailed"){
+      // free-tier answers are trimmed unless admin gives everyone premium
+    }
+    const level = state.premiumForAll ? state.detailLevel : "concise";
     if(level === "concise") return "Answer clearly and concisely. Keep responses short and to the point.";
     if(level === "detailed") return "Answer thoroughly with useful detail, examples, and context, as a premium in-depth assistant would.";
     return "Answer clearly, with a balanced level of useful detail.";
@@ -1349,7 +1260,7 @@
   async function sendMessage(){
     const text = els.input.value.trim();
     if(!text || state.isSending) return;
-    if(!userIsPremium() && state.messagesUsed >= state.freeLimit){
+    if(!state.premiumForAll && state.messagesUsed >= state.freeLimit){
       renderPlanCard();
       return;
     }
@@ -1386,7 +1297,7 @@
       } else {
         await handleChat();
       }
-      if(!userIsPremium()){
+      if(!state.premiumForAll){
         state.messagesUsed += 1;
       }
     } catch(err){
@@ -1509,7 +1420,6 @@
     els.limitInput.value = state.freeLimit;
     els.toneSelect.value = state.detailLevel;
     renderFeatureOverview();
-    renderPremiumUsersList();
     renderAnalytics();
     loadAllVisitors();
     if(analyticsInterval) clearInterval(analyticsInterval);
@@ -1559,7 +1469,6 @@
     els.premiumStateLabel.textContent = on ? "ON" : "OFF";
     renderPlanCard();
     if(state.isAdminUnlocked) renderFeatureOverview();
-    saveSettings();
   }
   els.premiumSwitch.addEventListener("click", () => setSwitch(!state.premiumForAll));
 
@@ -1571,13 +1480,11 @@
     state.freeLimit = v;
     renderPlanCard();
     renderFeatureOverview();
-    saveSettings();
   });
 
   els.toneSelect.addEventListener("change", () => {
     state.detailLevel = els.toneSelect.value;
     renderFeatureOverview();
-    saveSettings();
   });
 
   els.savePin.addEventListener("click", () => {
@@ -1586,82 +1493,15 @@
       state.adminPin = v;
       els.newPin.value = "";
       els.newPin.placeholder = "Password updated ✓";
-      saveSettings();
     } else {
       els.newPin.placeholder = "Must be at least 4 characters";
     }
-  });
-
-  // ---------- Grant / revoke premium for individual people ----------
-  function normalizeEmail(v){ return v.trim().toLowerCase(); }
-
-  function renderPremiumUsersList(){
-    if(!els.premiumUsersList) return;
-    if(state.premiumUsers.length === 0){
-      els.premiumUsersList.innerHTML = `<div class="overview-row"><span class="k">No one has been individually granted premium yet</span></div>`;
-      return;
-    }
-    els.premiumUsersList.innerHTML = state.premiumUsers.map(email => `
-      <div class="overview-row">
-        <span class="v">${email}</span>
-        <button class="revoke-btn" data-email="${email}" type="button">Revoke</button>
-      </div>`).join("");
-    els.premiumUsersList.querySelectorAll(".revoke-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const email = btn.getAttribute("data-email");
-        state.premiumUsers = state.premiumUsers.filter(e => e !== email);
-        renderPremiumUsersList();
-        renderPlanCard();
-        renderFeatureOverview();
-        saveSettings();
-      });
-    });
-  }
-
-  function grantPremium(){
-    const v = normalizeEmail(els.grantEmailInput.value);
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    if(!valid){
-      els.grantEmailError.style.display = "block";
-      return;
-    }
-    els.grantEmailError.style.display = "none";
-    if(!state.premiumUsers.includes(v)) state.premiumUsers.push(v);
-    els.grantEmailInput.value = "";
-    renderPremiumUsersList();
-    renderPlanCard();
-    renderFeatureOverview();
-    saveSettings();
-  }
-  els.grantEmailBtn.addEventListener("click", grantPremium);
-  els.grantEmailInput.addEventListener("keydown", (e) => { if(e.key === "Enter") grantPremium(); });
-
-  // ---------- Subscription / plans page ----------
-  function renderSubscriptionOverlay(){
-    const premium = userIsPremium();
-    els.subStatusBadge.textContent = premium ? "You have Premium" : "You're on the Free plan";
-    els.subStatusBadge.className = "plan-badge " + (premium ? "premium" : "free");
-    els.subCtaBtn.style.display = premium ? "none" : "inline-block";
-  }
-  function openSubscriptionOverlay(){
-    renderSubscriptionOverlay();
-    els.subscriptionOverlay.style.display = "flex";
-  }
-  function closeSubscriptionOverlay(){ els.subscriptionOverlay.style.display = "none"; }
-  els.viewPlansBtn.addEventListener("click", openSubscriptionOverlay);
-  els.closeSubscription.addEventListener("click", closeSubscriptionOverlay);
-  els.subscriptionOverlay.addEventListener("click", (e) => {
-    if(e.target === els.subscriptionOverlay) closeSubscriptionOverlay();
-  });
-  els.subCtaBtn.addEventListener("click", () => {
-    const subject = encodeURIComponent("Requesting Formen AI Premium access");
-    const body = encodeURIComponent(`Hi,\n\nCould you upgrade my Formen AI account to Premium?\n\nMy email: ${state.userEmail || "(enter the email you signed in with)"}\n\nThanks!`);
-    window.location.href = `mailto:devjiban321@gmail.com?subject=${subject}&body=${body}`;
   });
 
   // ---------- Init ----------
   renderPlanCard();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
