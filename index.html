@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0048)file:///C:/Users/DELL/Downloads/chat-app_10.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suxam AI — Ask Anything</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Suxam AI — Ask Anything  sidebar_files/css2" rel="stylesheet">
+<script src="./Suxam AI — Ask Anything  sidebar_files/client" async="" defer=""></script>
 <style>
   :root{
     --bg: #ffffff;
@@ -367,6 +367,87 @@
     display:flex; align-items:center; gap:8px;
     font-size: 13px; color: var(--muted);
   }
+
+  .msg-actions{
+    display:flex; gap:6px; margin-top:4px;
+    opacity:0; transition:opacity .15s ease;
+  }
+  .msg-action-btn{
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    font-size: 12px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .msg-action-btn:hover{ color: var(--text); border-color: var(--accent-dim); }
+  .msg.user .msg-actions{ justify-content: flex-end; }
+
+  .code-block{
+    margin-top: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #0f1117;
+  }
+  .code-block-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.04);
+    font-size: 11px;
+    color: #9ca3af;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-block pre{
+    margin:0; padding: 12px 14px;
+    overflow-x:auto;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: #e5e7eb;
+    line-height:1.6;
+  }
+  .code-btn{
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #e5e7eb;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor:pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .code-btn:hover{ background: rgba(255,255,255,0.16); }
+
+  .chat-history-list{
+    flex: 1;
+    overflow-y: auto;
+    display:flex; flex-direction:column; gap: 2px;
+    margin-bottom: 12px;
+    min-height: 0;
+  }
+  .chat-history-item{
+    padding: 8px 10px;
+    border-radius: 9px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor:pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display:flex; align-items:center; justify-content:space-between;
+    gap: 6px;
+  }
+  .chat-history-item:hover{ background: var(--panel-2); color: var(--text); }
+  .chat-history-item.active{ background: var(--panel-2); color: var(--text); font-weight:600; }
+  .chat-history-item .del-chat{
+    opacity:0; flex-shrink:0;
+    background:none; border:none; color:var(--muted);
+    font-size:12px; cursor:pointer; padding:2px 4px;
+  }
+  .chat-history-item:hover .del-chat{ opacity:1; }
+  .chat-history-item .del-chat:hover{ color: var(--danger); }
   .limit-note{
     max-width: 760px; margin: 10px auto 0 auto;
     text-align:center; font-size: 12px; color: var(--muted);
@@ -600,7 +681,7 @@
     .send-btn svg{ width: 19px; height: 19px; }
   }
 </style>
-</head>
+<style id="googleidentityservice_button_styles">.qJTHM{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:Roboto-Regular,arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{overflow-wrap:break-word;word-break:break-word}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-u2z5K{height:36px;width:36px}.Bz112c-uaxL4e{border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf{border:none;margin:0;padding:0}.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u{-webkit-transition:height .2s linear;transition:height .2s linear}.P1ekSe-ZMv3u>div:first-child{background-color:#1a73e8!important;-webkit-transition:width .3s linear;transition:width .3s linear}.P1ekSe-ZMv3u>div:nth-child(2){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.P1ekSe-ZMv3u>div:nth-child(3){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{border-radius:4px;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:Google Sans,arial,sans-serif;font-size:.875rem;height:40px;letter-spacing:.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}@media screen and (preferes-contrast:more){.nsm7Bb-HzV7m-LgbsSe{color:#000}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:.875rem;height:32px;letter-spacing:.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:.6875rem;height:20px;letter-spacing:.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc{border:1px solid #8e918f;background-color:#131314;color:#e3e3e3}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{color:#fff}}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;-webkit-box-flex:1;flex-grow:1;font-family:Google Sans,arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;-webkit-box-flex:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:focus,.nsm7Bb-HzV7m-LgbsSe:hover{box-shadow:none;border-color:rgb(210,227,252);outline:none}.nsm7Bb-HzV7m-LgbsSe:focus-within{outline:2px solid #00639b;border-color:transparent}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.08)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.08)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.12)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:Roboto;font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-to915-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#c4c7c5;fill:#c4c7c5}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff,.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#000;fill:#000}}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style><link id="googleidentityservice" type="text/css" media="all" href="./Suxam AI — Ask Anything  sidebar_files/style" rel="stylesheet"></head>
 <body>
 
 <div class="bg-glow">
@@ -617,53 +698,52 @@
   </div>
   <button class="new-chat" id="newChatBtn">＋ New chat</button>
 
+  <div class="chat-history-list" id="chatHistoryList">
+      <div class="chat-history-item " data-id="chat_1786803030126">
+        <span>hello</span>
+        <button class="del-chat" data-del="chat_1786803030126" title="Delete">✕</button>
+      </div></div>
+
   <div class="plan-card">
     <div class="row">
       <span class="plan-label">Your plan</span>
-      <span class="plan-badge" id="planBadge">—</span>
+      <span class="plan-badge premium" id="planBadge">PREMIUM</span>
     </div>
-    <div class="plan-desc" id="planDesc">Loading…</div>
-    <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width:0%"></div></div>
-    <div class="usage-text" id="usageText">—</div>
+    <div class="plan-desc" id="planDesc">Unlimited messages and detailed answers — free, courtesy of the admin.</div>
+    <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width: 100%;"></div></div>
+    <div class="usage-text" id="usageText">Unlimited</div>
   </div>
-  <button class="admin-toggle-btn" id="adminBtn" style="display:none;">⚙ Admin panel</button>
+  <button class="admin-toggle-btn" id="adminBtn" style="display: block;">⚙ Admin panel</button>
 </div>
 
 <div class="main">
   <div class="topbar">
     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
     </button>
     <div>
       <h1>Ask Suxam AI anything</h1>
-      <div class="sub" id="topSub">Real answers, powered live.</div>
+      <div class="sub" id="topSub">Premium is on for everyone right now.</div>
     </div>
   </div>
 
   <div class="chat-scroll" id="chatScroll">
-    <div class="chat-inner" id="chatInner">
-      <div class="empty-state" id="emptyState">
-        <div class="glyph">S</div>
-        <h2>What do you want to know?</h2>
-        <p>Type a question below and Suxam AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p>
-        <div class="credit-line">Made by Mr. Jiban Krushna Patro, Mr. Saisish Das Mohapatra &amp; Mr. Mohit Ranjan Sahoo</div>
-      </div>
-    </div>
+    <div class="chat-inner" id="chatInner"><div class="empty-state" id="emptyState"><div class="glyph">S</div><h2>What do you want to know?</h2><p>Type a question below and Suxam AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p><div class="credit-line">Made by Mr. Jiban Krushna Patro, Mr. Saisish Das Mohapatra &amp; Mr. Mohit Ranjan Sahoo</div></div></div>
   </div>
 
   <div class="composer-wrap">
     <div class="image-preview-row" id="imagePreviewRow" style="display:none;"></div>
     <div class="composer">
       <button class="tool-btn" id="attachBtn" title="Attach an image to edit" type="button">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"></path></svg>
       </button>
       <input type="file" id="fileInput" accept="image/*" style="display:none;">
       <button class="tool-btn" id="genImgBtn" title="Generate an image from your description" type="button">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="M21 15l-5-5L5 21"></path></svg>
       </button>
-      <textarea id="input" placeholder="Message Suxam AI…" rows="1"></textarea>
+      <textarea id="input" placeholder="Message Suxam AI…" rows="1" style="height: 34px;"></textarea>
       <button class="send-btn" id="sendBtn" title="Send">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"></path></svg>
       </button>
     </div>
     <div class="mode-note" id="modeNote"></div>
@@ -672,12 +752,12 @@
 </div>
 
 <!-- Welcome / email gate (shown once per session) -->
-<div class="overlay" id="welcomeOverlay" style="display:flex;">
+<div class="overlay" id="welcomeOverlay" style="display: none;">
   <div class="admin-panel" style="width:380px;">
     <h2>👋 Welcome to Suxam AI</h2>
     <div class="lead">Sign in once to start chatting. The admin can see it in the admin panel.</div>
 
-    <div id="googleSignInBtn" style="display:flex; justify-content:center; margin: 10px 0 16px 0;"></div>
+    <div id="googleSignInBtn" style="display:flex; justify-content:center; margin: 10px 0 16px 0;"><div class="S9gUrf-YoZ4jf" style="position: relative;"><div><div tabindex="0" role="button" aria-labelledby="button-label" class="nsm7Bb-HzV7m-LgbsSe  hJDwNd-SxQuSe i5vt6e-Ia7Qfc JGcpL-RbRzK"><div class="nsm7Bb-HzV7m-LgbsSe-MJoBVe"></div><div class="nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb "><div class="nsm7Bb-HzV7m-LgbsSe-Bz112c"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="LgbsSe-Bz112c"><g><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></g></svg></div><span class="nsm7Bb-HzV7m-LgbsSe-BPrWId">Continue with Google</span><span class="L6cTce" id="button-label">Continue with Google. Opens in new tab</span></div></div></div><iframe src="./Suxam AI — Ask Anything  sidebar_files/button.html" class="L5Fo6c-PQbLGe" allow="identity-credentials-get" id="gsi_25762_914839" title="Sign in with Google Button" style="display: block; position: relative; top: 0px; left: 0px; height: 0px; width: 0px; border: 0px;"></iframe></div></div>
 
     <div style="display:flex; align-items:center; gap:10px; margin: 4px 0 14px 0;">
       <div style="flex:1; height:1px; background:var(--line);"></div>
@@ -696,9 +776,9 @@
 </div>
 
 <!-- Admin overlay -->
-<div class="overlay" id="overlay" style="display:none;">
+<div class="overlay" id="overlay" style="display: none;">
   <div class="admin-panel">
-    <div id="loginView">
+    <div id="loginView" style="display: none;">
       <h2>🔒 Admin access</h2>
       <div class="lead">Enter the admin password to adjust the app for everyone.</div>
       <div class="pin-row">
@@ -709,32 +789,108 @@
       <div class="pin-error" id="pinError" style="display:none;">Wrong password. Try again.</div>
     </div>
 
-    <div id="controlsView" style="display:none;">
+    <div id="controlsView" style="display: block;">
       <h2>⚙ Admin panel</h2>
       <div class="lead">Changes apply instantly to every user of this app.</div>
 
       <div class="control">
         <div class="ctitle">Current features — snapshot</div>
         <div class="cdesc">What's live right now, at a glance.</div>
-        <div id="featureOverview" class="overview-list"></div>
+        <div id="featureOverview" class="overview-list">
+      <div class="overview-row">
+        <span class="k">Current visitor's email</span>
+        <span class="v ">devjiban321@gmail.com</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Premium for everyone</span>
+        <span class="v on">ON</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Free-tier message limit</span>
+        <span class="v ">40 / session</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Answer detail level</span>
+        <span class="v ">balanced</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Messages used (free tier, this session)</span>
+        <span class="v ">0</span>
+      </div>
+      <div class="overview-row">
+        <span class="k">Admin access</span>
+        <span class="v on">email-gated + password</span>
+      </div></div>
       </div>
 
       <div class="control">
         <div class="ctitle">Live analytics</div>
         <div class="cdesc">Tracked in this browser tab only. This is a single static page with no server behind it, so it can count what happens in this session, but it can't yet see other people's devices — that needs a real backend with a database (I can help you build that next if you want it).</div>
-        <div class="analytics-grid" id="analyticsGrid"></div>
+        <div class="analytics-grid" id="analyticsGrid">
+      <div class="stat-card">
+        <div class="num">14</div>
+        <div class="lbl">Total clicks</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">3</div>
+        <div class="lbl">Messages sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">1</div>
+        <div class="lbl">New chats started</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">2m 14s</div>
+        <div class="lbl">Session duration</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">0</div>
+        <div class="lbl">Free msgs remaining</div>
+      </div></div>
       </div>
 
       <div class="control">
         <div class="ctitle">All visitors — permanent (from your backend)</div>
         <div class="cdesc">Every person who's ever entered an email, on any device, with their question history. Loads from your Cloudflare Worker once it's connected below.</div>
-        <div id="allVisitors" class="overview-list"></div>
+        <div id="allVisitors" class="overview-list">
+        <div class="overview-row" style="flex-direction:column; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="v">anonymous</span>
+            <span class="k">1 question</span>
+          </div>
+          <span class="k" style="font-size:11px;">Last asked: Hello</span>
+        </div>
+        <div class="overview-row" style="flex-direction:column; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="v">devjiban321@gmail.com</span>
+            <span class="k">47 questions</span>
+          </div>
+          <span class="k" style="font-size:11px;">Last asked: make a website code file for a website like youtube video downloader</span>
+        </div>
+        <div class="overview-row" style="flex-direction:column; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="v">madhusmitapatro321@gmail.com</span>
+            <span class="k">4 questions</span>
+          </div>
+          <span class="k" style="font-size:11px;">Last asked: Give me</span>
+        </div>
+        <div class="overview-row" style="flex-direction:column; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="v">mpmadhupatro1986@gmail.com</span>
+            <span class="k">5 questions</span>
+          </div>
+          <span class="k" style="font-size:11px;">Last asked: Who designed you their is written that jiban saisish mohit has designed you</span>
+        </div></div>
       </div>
 
       <div class="control">
         <div class="ctitle">This session's visitor log</div>
         <div class="cdesc">Just what happened in this browser tab, most recent first — a quick local view alongside the permanent one above.</div>
-        <div id="visitorLog" class="overview-list"></div>
+        <div id="visitorLog" class="overview-list">
+          <div class="overview-row">
+            <span class="k">devjiban321@gmail.com</span>
+            <span class="v">8/15/2026, 7:40:25 PM</span>
+          </div></div>
       </div>
 
       <div class="control">
@@ -760,7 +916,7 @@
         <div class="cdesc">Controls how thorough Nova's answers are for everyone.</div>
         <select class="tone-select" id="toneSelect">
           <option value="concise">Concise — short, to the point</option>
-          <option value="balanced" selected>Balanced — clear with useful detail</option>
+          <option value="balanced" selected="">Balanced — clear with useful detail</option>
           <option value="detailed">Detailed — thorough, premium-style answers</option>
         </select>
       </div>
@@ -793,7 +949,9 @@
     freeLimit: 10,
     detailLevel: "balanced",  // concise | balanced | detailed
     messagesUsed: 0,
-    history: [],              // {role, content}
+    history: [],              // {role, content} — the CURRENT chat's messages
+    chatSessions: [],         // previous chats, shown in the sidebar
+    currentChatId: null,
     isSending: false,
     userEmail: null,
     pendingImage: null,       // {dataUrl, base64, mimeType} — set when an image is attached for editing
@@ -842,6 +1000,7 @@
     genImgBtn: $("genImgBtn"),
     imagePreviewRow: $("imagePreviewRow"),
     modeNote: $("modeNote"),
+    chatHistoryList: $("chatHistoryList"),
     topSub: $("topSub"),
     featureOverview: $("featureOverview"),
     analyticsGrid: $("analyticsGrid"),
@@ -1024,14 +1183,86 @@
   });
   els.sendBtn.addEventListener("click", sendMessage);
 
-  els.newChatBtn.addEventListener("click", () => {
-    state.history = [];
-    state.analytics.newChatsStarted += 1;
-    els.chatInner.innerHTML = "";
-    els.chatInner.appendChild(els.emptyState);
-    els.emptyState.style.display = "block";
+  // ---------- Chat history (previous chats, like ChatGPT's sidebar) ----------
+  function saveCurrentChatIfAny(){
+    if(state.history.length === 0) return; // nothing to save
+    const firstUserMsg = state.history.find(m => m.role === "user");
+    const title = firstUserMsg ? firstUserMsg.content.slice(0, 40) : "New chat";
+
+    if(state.currentChatId){
+      // update existing session in place
+      const existing = state.chatSessions.find(s => s.id === state.currentChatId);
+      if(existing){
+        existing.history = state.history;
+        existing.chatInnerHTML = els.chatInner.innerHTML;
+        return;
+      }
+    }
+    const id = "chat_" + Date.now();
+    state.chatSessions.unshift({
+      id,
+      title,
+      history: state.history,
+      chatInnerHTML: els.chatInner.innerHTML
+    });
+    state.currentChatId = id;
+  }
+
+  function renderChatHistoryList(){
+    if(state.chatSessions.length === 0){
+      els.chatHistoryList.innerHTML = "";
+      return;
+    }
+    els.chatHistoryList.innerHTML = state.chatSessions.map(s => `
+      <div class="chat-history-item ${s.id === state.currentChatId ? 'active' : ''}" data-id="${s.id}">
+        <span>${s.title || "New chat"}</span>
+        <button class="del-chat" data-del="${s.id}" title="Delete">✕</button>
+      </div>`).join("");
+
+    els.chatHistoryList.querySelectorAll(".chat-history-item").forEach(item => {
+      item.addEventListener("click", (e) => {
+        if(e.target.closest(".del-chat")) return;
+        switchToChat(item.dataset.id);
+      });
+    });
+    els.chatHistoryList.querySelectorAll(".del-chat").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.del;
+        state.chatSessions = state.chatSessions.filter(s => s.id !== id);
+        if(state.currentChatId === id){
+          startFreshChat();
+        }
+        renderChatHistoryList();
+      });
+    });
+  }
+
+  function switchToChat(id){
+    saveCurrentChatIfAny();
+    const session = state.chatSessions.find(s => s.id === id);
+    if(!session) return;
+    state.currentChatId = id;
+    state.history = session.history;
+    els.chatInner.innerHTML = session.chatInnerHTML;
+    els.emptyState = document.getElementById("emptyState"); // may not exist if chat has messages
+    renderChatHistoryList();
     closeSidebar();
-  });
+    els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
+  }
+
+  function startFreshChat(){
+    saveCurrentChatIfAny();
+    state.history = [];
+    state.currentChatId = null;
+    state.analytics.newChatsStarted += 1;
+    els.chatInner.innerHTML = '<div class="empty-state" id="emptyState"><div class="glyph">S</div><h2>What do you want to know?</h2><p>Type a question below and Suxam AI will answer. Everyone currently has premium access — the admin can change that anytime from the panel in the sidebar.</p><div class="credit-line">Made by Mr. Jiban Krushna Patro, Mr. Saisish Das Mohapatra &amp; Mr. Mohit Ranjan Sahoo</div></div>';
+    els.emptyState = document.getElementById("emptyState");
+    renderChatHistoryList();
+    closeSidebar();
+  }
+
+  els.newChatBtn.addEventListener("click", startFreshChat);
 
   // ---------- Mobile sidebar (tap + swipe) ----------
   function openSidebar(){
@@ -1160,6 +1391,43 @@
     }
   }
 
+  // Splits AI text into plain segments and fenced code blocks (```lang\ncode\n```)
+  function parseContentBlocks(text){
+    const blocks = [];
+    const regex = /```(\w*)\n([\s\S]*?)```/g;
+    let lastIndex = 0, match;
+    while((match = regex.exec(text)) !== null){
+      if(match.index > lastIndex) blocks.push({ type: "text", value: text.slice(lastIndex, match.index) });
+      blocks.push({ type: "code", lang: match[1] || "", value: match[2] });
+      lastIndex = regex.lastIndex;
+    }
+    if(lastIndex < text.length) blocks.push({ type: "text", value: text.slice(lastIndex) });
+    return blocks.length ? blocks : [{ type: "text", value: text }];
+  }
+
+  function looksLikeFullHtmlDoc(code){
+    return /<!DOCTYPE html>|<html[\s>]/i.test(code);
+  }
+
+  function downloadTextFile(filename, content){
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function copyToClipboard(text, btn){
+    navigator.clipboard.writeText(text).then(() => {
+      if(btn){
+        const original = btn.innerHTML;
+        btn.innerHTML = "✓";
+        setTimeout(() => { btn.innerHTML = original; }, 1200);
+      }
+    });
+  }
+
   function addMessage(role, content, imageDataUrl){
     if(els.emptyState) els.emptyState.style.display = "none";
     const msg = document.createElement("div");
@@ -1169,19 +1437,124 @@
       <div class="avatar ${role === 'user' ? 'you' : 'ai'}">${role === 'user' ? 'You' : 'S'}</div>
       <div>
         <div class="bubble"></div>
+        <div class="msg-actions">
+          <button class="msg-action-btn copy-msg-btn" title="Copy">⧉</button>
+          ${role === 'user' ? '<button class="msg-action-btn edit-msg-btn" title="Edit">✎</button>' : ''}
+        </div>
         <div class="meta">${role === 'user' ? 'You' : 'Suxam AI'} · ${time}</div>
       </div>`;
     const bubble = msg.querySelector(".bubble");
-    if(content) bubble.appendChild(document.createTextNode(content));
+
+    if(content){
+      const blocks = parseContentBlocks(content);
+      blocks.forEach(block => {
+        if(block.type === "text"){
+          if(block.value.trim()) bubble.appendChild(document.createTextNode(block.value));
+        } else {
+          const codeWrap = document.createElement("div");
+          codeWrap.className = "code-block";
+          const header = document.createElement("div");
+          header.className = "code-block-header";
+          header.innerHTML = `<span>${block.lang || "code"}</span>`;
+
+          const actions = document.createElement("div");
+          actions.style.display = "flex"; actions.style.gap = "6px";
+
+          const copyBtn = document.createElement("button");
+          copyBtn.className = "code-btn"; copyBtn.textContent = "Copy";
+          copyBtn.onclick = () => copyToClipboard(block.value, copyBtn);
+          actions.appendChild(copyBtn);
+
+          if(looksLikeFullHtmlDoc(block.value)){
+            const dlBtn = document.createElement("button");
+            dlBtn.className = "code-btn"; dlBtn.textContent = "Download";
+            dlBtn.onclick = () => downloadTextFile("page.html", block.value);
+            actions.appendChild(dlBtn);
+          }
+          header.appendChild(actions);
+
+          const pre = document.createElement("pre");
+          const codeEl = document.createElement("code");
+          codeEl.textContent = block.value;
+          pre.appendChild(codeEl);
+
+          codeWrap.appendChild(header);
+          codeWrap.appendChild(pre);
+          bubble.appendChild(codeWrap);
+        }
+      });
+    }
+
     if(imageDataUrl){
       const img = document.createElement("img");
       img.className = "chat-image";
       img.src = imageDataUrl;
       bubble.appendChild(img);
     }
+
+    // Hover-to-show copy/edit actions
+    const actionsRow = msg.querySelector(".msg-actions");
+    msg.addEventListener("mouseenter", () => { actionsRow.style.opacity = "1"; });
+    msg.addEventListener("mouseleave", () => { actionsRow.style.opacity = "0"; });
+
+    msg.querySelector(".copy-msg-btn").addEventListener("click", (e) => {
+      copyToClipboard(content || "", e.currentTarget);
+    });
+
+    const editBtn = msg.querySelector(".edit-msg-btn");
+    if(editBtn){
+      editBtn.addEventListener("click", () => startEditingMessage(msg, content));
+    }
+
     els.chatInner.appendChild(msg);
     els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
     return msg;
+  }
+
+  // Turns a user message bubble into an editable box; on save, resends from that point.
+  function startEditingMessage(msgEl, originalText){
+    const bubble = msgEl.querySelector(".bubble");
+    const originalHTML = bubble.innerHTML;
+
+    bubble.innerHTML = "";
+    const textarea = document.createElement("textarea");
+    textarea.value = originalText;
+    textarea.style.cssText = "width:100%; min-height:60px; background:transparent; border:none; outline:none; font-family:inherit; font-size:inherit; color:inherit; resize:vertical;";
+    bubble.appendChild(textarea);
+
+    const controls = document.createElement("div");
+    controls.style.cssText = "display:flex; gap:8px; margin-top:8px;";
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save & resend";
+    saveBtn.className = "code-btn";
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.className = "code-btn";
+    controls.appendChild(saveBtn); controls.appendChild(cancelBtn);
+    bubble.appendChild(controls);
+    textarea.focus();
+
+    cancelBtn.onclick = () => { bubble.innerHTML = originalHTML; };
+
+    saveBtn.onclick = () => {
+      const newText = textarea.value.trim();
+      if(!newText) return;
+
+      // Find this message's position in history and truncate everything after it,
+      // then resend as if it were just typed.
+      const msgIndex = Array.from(els.chatInner.children).indexOf(msgEl);
+      const historyIndexGuess = state.history.findIndex(h => h.role === "user" && h.content === originalText);
+      if(historyIndexGuess !== -1){
+        state.history = state.history.slice(0, historyIndexGuess);
+      }
+      // Remove this message and everything after it from the visible chat
+      while(els.chatInner.children[msgIndex]){
+        els.chatInner.removeChild(els.chatInner.children[msgIndex]);
+      }
+      els.input.value = newText;
+      autoResize();
+      sendMessage();
+    };
   }
 
   function addTyping(){
@@ -1234,6 +1607,8 @@
     }
     state.history.push({role: "user", content: text});
     state.analytics.messagesSentTotal += 1;
+    saveCurrentChatIfAny();
+    renderChatHistoryList();
 
     // reset composer modes now that we've captured what we need
     state.pendingImage = null;
@@ -1262,6 +1637,8 @@
     } finally {
       state.isSending = false;
       renderPlanCard();
+      saveCurrentChatIfAny();
+      renderChatHistoryList();
     }
   }
 
@@ -1457,5 +1834,6 @@
   renderPlanCard();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
