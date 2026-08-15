@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root{
     --bg: #ffffff;
@@ -420,6 +421,28 @@
   }
   .code-btn:hover{ background: rgba(255,255,255,0.16); }
 
+  .model-select{
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 7px 10px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+  }
+
+  .tool-btn.recording{ color: #fff; background: var(--danger); animation: pulse-rec 1s infinite; }
+  @keyframes pulse-rec{ 0%,100%{ opacity:1; } 50%{ opacity:0.6; } }
+
+  .streaming-cursor{
+    display:inline-block; width:8px; height:1em;
+    background: var(--accent); margin-left:2px;
+    animation: blink-cursor 0.9s steps(1) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes blink-cursor{ 50%{ opacity:0; } }
+
   .chat-history-list{
     flex: 1;
     overflow-y: auto;
@@ -721,6 +744,11 @@
       <h1>Ask Suxam AI anything</h1>
       <div class="sub" id="topSub">Real answers, powered live.</div>
     </div>
+    <select id="modelSelect" class="model-select">
+      <option value="@cf/mistralai/mistral-small-3.1-24b-instruct">Mistral Small (default)</option>
+      <option value="@cf/meta/llama-3.1-8b-instruct-fast">Llama 3.1 (fast)</option>
+      <option value="@cf/qwen/qwen1.5-14b-chat-awq">Qwen 1.5</option>
+    </select>
   </div>
 
   <div class="chat-scroll" id="chatScroll">
@@ -741,12 +769,25 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a1.5 1.5 0 01-2.12-2.12l8.49-8.48"/></svg>
       </button>
       <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      <button class="tool-btn" id="docBtn" title="Attach a text or PDF file" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      </button>
+      <input type="file" id="docInput" accept=".txt,.md,.csv,.json,.pdf" style="display:none;">
       <button class="tool-btn" id="genImgBtn" title="Generate an image from your description" type="button">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+      </button>
+      <button class="tool-btn" id="webSearchBtn" title="Search the web before answering" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <button class="tool-btn" id="micBtn" title="Speak your message" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0"/><path d="M12 19v3"/></svg>
       </button>
       <textarea id="input" placeholder="Message Suxam AI…" rows="1"></textarea>
       <button class="send-btn" id="sendBtn" title="Send">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" fill="currentColor"/></svg>
+      </button>
+      <button class="send-btn" id="stopBtn" title="Stop" style="display:none; background:var(--danger);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
       </button>
     </div>
     <div class="mode-note" id="modeNote"></div>
@@ -894,6 +935,11 @@
     pendingImage: null,       // {dataUrl, base64, mimeType} — set when an image is attached for editing
     generateImageMode: false, // true when the next message should generate an image instead of chat
     isIndividualPremium: false, // true if THIS signed-in email was specifically granted premium
+    selectedModel: "@cf/mistralai/mistral-small-3.1-24b-instruct",
+    webSearchMode: false,
+    pendingDocText: null, // {filename, text} — attached document/PDF text for the next message
+    currentAbortController: null,
+    isRecording: false,
     analytics: {
       sessionStart: Date.now(),
       totalClicks: 0,
@@ -943,6 +989,12 @@
     modeNote: $("modeNote"),
     chatHistoryList: $("chatHistoryList"),
     premiumEmailInput: $("premiumEmailInput"),
+    docBtn: $("docBtn"),
+    docInput: $("docInput"),
+    webSearchBtn: $("webSearchBtn"),
+    micBtn: $("micBtn"),
+    modelSelect: $("modelSelect"),
+    stopBtn: $("stopBtn"),
     addPremiumBtn: $("addPremiumBtn"),
     premiumEmailList: $("premiumEmailList"),
     topSub: $("topSub"),
@@ -1324,9 +1376,101 @@
     renderModeUI();
   });
 
+  // ---------- Web search mode ----------
+  els.webSearchBtn.addEventListener("click", () => {
+    state.webSearchMode = !state.webSearchMode;
+    renderModeUI();
+  });
+
+  // ---------- Model selector ----------
+  els.modelSelect.addEventListener("change", () => {
+    state.selectedModel = els.modelSelect.value;
+  });
+
+  // ---------- Document / PDF attach ----------
+  els.docBtn.addEventListener("click", () => els.docInput.click());
+  els.docInput.addEventListener("change", async () => {
+    const file = els.docInput.files[0];
+    if(!file) return;
+    els.docBtn.classList.add("active");
+    try{
+      let text = "";
+      if(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")){
+        text = await extractPdfText(file);
+      } else {
+        text = await file.text();
+      }
+      state.pendingDocText = { filename: file.name, text: text.slice(0, 12000) }; // cap length
+      renderModeUI();
+    } catch(e){
+      els.docBtn.classList.remove("active");
+      addMessage("ai", "Couldn't read that file — try a plain text file or PDF.");
+    }
+    els.docInput.value = "";
+  });
+
+  async function extractPdfText(file){
+    if(window.pdfjsLib && !pdfjsLib.GlobalWorkerOptions.workerSrc){
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    }
+    const buffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+    let fullText = "";
+    for(let i = 1; i <= Math.min(pdf.numPages, 20); i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(it => it.str).join(" ") + "\n";
+    }
+    return fullText;
+  }
+
+  function removePendingDoc(){
+    state.pendingDocText = null;
+    els.docBtn.classList.remove("active");
+    renderModeUI();
+  }
+
+  // ---------- Voice input (Web Speech API — built into the browser, free) ----------
+  let recognizer = null;
+  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(SpeechRecognitionAPI){
+    recognizer = new SpeechRecognitionAPI();
+    recognizer.continuous = false;
+    recognizer.interimResults = false;
+    recognizer.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      els.input.value = (els.input.value ? els.input.value + " " : "") + transcript;
+      autoResize();
+    };
+    recognizer.onend = () => { state.isRecording = false; els.micBtn.classList.remove("recording"); };
+    recognizer.onerror = () => { state.isRecording = false; els.micBtn.classList.remove("recording"); };
+  }
+  els.micBtn.addEventListener("click", () => {
+    if(!recognizer){
+      addMessage("ai", "Voice input isn't supported in this browser — try Chrome.");
+      return;
+    }
+    if(state.isRecording){
+      recognizer.stop();
+    } else {
+      state.isRecording = true;
+      els.micBtn.classList.add("recording");
+      recognizer.start();
+    }
+  });
+
+  // ---------- Voice output (Web Speech Synthesis — built into the browser, free) ----------
+  function speakText(text){
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel(); // stop anything currently speaking
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  }
+
   function renderModeUI(){
     els.genImgBtn.classList.toggle("active", state.generateImageMode);
     els.attachBtn.classList.toggle("active", !!state.pendingImage);
+    els.webSearchBtn.classList.toggle("active", state.webSearchMode);
 
     if(state.pendingImage){
       els.imagePreviewRow.style.display = "flex";
@@ -1336,6 +1480,14 @@
           <button class="remove-chip" id="removeChipBtn" type="button">✕</button>
         </div>`;
       document.getElementById("removeChipBtn").addEventListener("click", removePendingImage);
+    } else if(state.pendingDocText){
+      els.imagePreviewRow.style.display = "flex";
+      els.imagePreviewRow.innerHTML = `
+        <div class="image-preview-chip" style="width:auto; padding:0 10px; display:flex; align-items:center; gap:6px; font-size:11px;">
+          <span>📄 ${state.pendingDocText.filename}</span>
+          <button class="remove-chip" id="removeDocBtn" type="button" style="position:static;">✕</button>
+        </div>`;
+      document.getElementById("removeDocBtn").addEventListener("click", removePendingDoc);
     } else {
       els.imagePreviewRow.style.display = "none";
       els.imagePreviewRow.innerHTML = "";
@@ -1345,10 +1497,18 @@
       els.modeNote.textContent = "Describe how you want this image edited, then send.";
       els.modeNote.classList.add("visible");
       els.input.placeholder = "e.g. \"make the background black and white\"…";
+    } else if(state.pendingDocText){
+      els.modeNote.textContent = "File attached — ask a question about it, then send.";
+      els.modeNote.classList.add("visible");
+      els.input.placeholder = "e.g. \"summarize this document\"…";
     } else if(state.generateImageMode){
       els.modeNote.textContent = "Image generation mode — describe the image you want, then send.";
       els.modeNote.classList.add("visible");
       els.input.placeholder = "e.g. \"a fox reading a book, watercolor style\"…";
+    } else if(state.webSearchMode){
+      els.modeNote.textContent = "Web search mode — I'll search before answering.";
+      els.modeNote.classList.add("visible");
+      els.input.placeholder = "e.g. \"latest news about...\"…";
     } else {
       els.modeNote.classList.remove("visible");
       els.input.placeholder = "Message Suxam AI…";
@@ -1404,6 +1564,8 @@
         <div class="msg-actions">
           <button class="msg-action-btn copy-msg-btn" title="Copy">⧉</button>
           ${role === 'user' ? '<button class="msg-action-btn edit-msg-btn" title="Edit">✎</button>' : ''}
+          ${role === 'ai' ? '<button class="msg-action-btn speak-msg-btn" title="Read aloud">🔊</button>' : ''}
+          ${role === 'ai' ? '<button class="msg-action-btn regen-msg-btn" title="Regenerate">↻</button>' : ''}
         </div>
         <div class="meta">${role === 'user' ? 'You' : 'Suxam AI'} · ${time}</div>
       </div>`;
@@ -1434,6 +1596,14 @@
             dlBtn.className = "code-btn"; dlBtn.textContent = "Download";
             dlBtn.onclick = () => downloadTextFile("page.html", block.value);
             actions.appendChild(dlBtn);
+          }
+
+          const runnableLangs = ["python","javascript","js","java","c","cpp","c++","typescript","ts","ruby","go","php","bash","shell"];
+          if(runnableLangs.includes(block.lang.toLowerCase())){
+            const runBtn = document.createElement("button");
+            runBtn.className = "code-btn"; runBtn.textContent = "Run";
+            runBtn.onclick = () => runCodeBlock(block.lang, block.value, codeWrap, runBtn);
+            actions.appendChild(runBtn);
           }
           header.appendChild(actions);
 
@@ -1470,9 +1640,81 @@
       editBtn.addEventListener("click", () => startEditingMessage(msg, content));
     }
 
+    const speakBtn = msg.querySelector(".speak-msg-btn");
+    if(speakBtn){
+      speakBtn.addEventListener("click", () => speakText(content || ""));
+    }
+
+    const regenBtn = msg.querySelector(".regen-msg-btn");
+    if(regenBtn){
+      regenBtn.addEventListener("click", () => regenerateMessage(msg));
+    }
+
     els.chatInner.appendChild(msg);
     els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
     return msg;
+  }
+
+  // Re-runs the chat from the last user message, replacing this AI reply.
+  async function regenerateMessage(msgEl){
+    if(state.isSending) return;
+    const msgIndex = Array.from(els.chatInner.children).indexOf(msgEl);
+    if(msgIndex < 0) return;
+
+    // Drop this AI turn (and anything after it) from history — last entry left is the user's question.
+    if(state.history.length && state.history[state.history.length - 1].role === "assistant"){
+      state.history.pop();
+    }
+    while(els.chatInner.children[msgIndex]){
+      els.chatInner.removeChild(els.chatInner.children[msgIndex]);
+    }
+
+    state.isSending = true;
+    renderPlanCard();
+    els.sendBtn.style.display = "none";
+    els.stopBtn.style.display = "flex";
+    try{
+      await handleChat(false);
+    } catch(err){
+      if(err.name !== "AbortError") addMessage("ai", "Something went wrong reaching the model. Please try again.");
+    } finally {
+      state.isSending = false;
+      els.sendBtn.style.display = "flex";
+      els.stopBtn.style.display = "none";
+      renderPlanCard();
+      saveCurrentChatIfAny();
+      renderChatHistoryList();
+    }
+  }
+
+  // Runs a code block through the free Piston execution API and shows the output inline.
+  async function runCodeBlock(lang, code, codeWrapEl, btn){
+    const langMap = { js: "javascript", ts: "typescript", "c++": "cpp", shell: "bash" };
+    const language = langMap[lang.toLowerCase()] || lang.toLowerCase();
+    btn.textContent = "Running…";
+    btn.disabled = true;
+
+    let outputBox = codeWrapEl.querySelector(".code-run-output");
+    if(!outputBox){
+      outputBox = document.createElement("pre");
+      outputBox.className = "code-run-output";
+      outputBox.style.cssText = "margin:0; padding:10px 14px; background:#000; color:#a3e635; font-family:'JetBrains Mono',monospace; font-size:12px; border-top:1px solid rgba(255,255,255,0.08);";
+      codeWrapEl.appendChild(outputBox);
+    }
+    outputBox.textContent = "Running…";
+
+    try{
+      const res = await fetch(WORKER_URL + "/run-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ language, code })
+      });
+      const data = await res.json();
+      outputBox.textContent = data.output || data.error || "No output";
+    } catch(e){
+      outputBox.textContent = "Couldn't run this code right now.";
+    }
+    btn.textContent = "Run"; btn.disabled = false;
   }
 
   // Turns a user message bubble into an editable box; on save, resends from that point.
@@ -1536,6 +1778,30 @@
     if(t) t.remove();
   }
 
+  // ---------- Streaming message helpers ----------
+  function addStreamingMessage(){
+    if(els.emptyState) els.emptyState.style.display = "none";
+    const msg = document.createElement("div");
+    msg.className = "msg ai";
+    msg.id = "streamingMsg";
+    msg.innerHTML = `<div class="avatar ai">S</div><div><div class="bubble"></div></div>`;
+    els.chatInner.appendChild(msg);
+    els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
+    return msg;
+  }
+  function updateStreamingMessage(msgEl, text){
+    const bubble = msgEl.querySelector(".bubble");
+    bubble.textContent = text;
+    const cursor = document.createElement("span");
+    cursor.className = "streaming-cursor";
+    bubble.appendChild(cursor);
+    els.chatScroll.scrollTop = els.chatScroll.scrollHeight;
+  }
+  function finalizeStreamingMessage(msgEl, finalText){
+    if(msgEl) msgEl.remove(); // swap the bare streaming bubble for the fully-featured rendered one
+    addMessage("ai", finalText);
+  }
+
   function detailSystemPrompt(){
     const level = isEffectivelyPremium() ? state.detailLevel : "concise";
     if(level === "concise") return "Answer clearly and concisely. Keep responses short and to the point.";
@@ -1544,8 +1810,8 @@
   }
 
   async function sendMessage(){
-    const text = els.input.value.trim();
-    if(!text || state.isSending) return;
+    const rawText = els.input.value.trim();
+    if(!rawText || state.isSending) return;
     if(!isEffectivelyPremium() && state.messagesUsed >= state.freeLimit){
       renderPlanCard();
       return;
@@ -1553,15 +1819,26 @@
 
     const isEditing = !!state.pendingImage;
     const isGenerating = state.generateImageMode;
+    const useWebSearch = state.webSearchMode;
     const attachedImage = state.pendingImage; // capture before clearing
+    const attachedDoc = state.pendingDocText; // capture before clearing
+
+    // Build the actual text sent to the model — folds in any attached document.
+    let text = rawText;
+    if(attachedDoc){
+      text = `[Attached file: ${attachedDoc.filename}]\n\n${attachedDoc.text}\n\n---\n\nUser's question about this file: ${rawText}`;
+    }
 
     els.input.value = "";
     autoResize();
 
+    // Show the user's ORIGINAL short message in the UI, not the huge doc text.
     if(isEditing){
-      addMessage("user", text, attachedImage.dataUrl);
+      addMessage("user", rawText, attachedImage.dataUrl);
+    } else if(attachedDoc){
+      addMessage("user", `📄 ${attachedDoc.filename}\n${rawText}`);
     } else {
-      addMessage("user", text);
+      addMessage("user", rawText);
     }
     state.history.push({role: "user", content: text});
     state.analytics.messagesSentTotal += 1;
@@ -1570,52 +1847,117 @@
 
     // reset composer modes now that we've captured what we need
     state.pendingImage = null;
+    state.pendingDocText = null;
     state.generateImageMode = false;
+    els.docBtn.classList.remove("active");
     renderModeUI();
 
     state.isSending = true;
     renderPlanCard();
-    addTyping();
+    els.sendBtn.style.display = "none";
+    els.stopBtn.style.display = "flex";
 
     try{
       if(isEditing){
-        await handleImageEdit(text, attachedImage);
+        addTyping();
+        await handleImageEdit(rawText, attachedImage);
       } else if(isGenerating){
-        await handleImageGenerate(text);
+        addTyping();
+        await handleImageGenerate(rawText);
       } else {
-        await handleChat();
+        await handleChat(useWebSearch);
       }
       if(!isEffectivelyPremium()){
         state.messagesUsed += 1;
       }
     } catch(err){
       removeTyping();
-      addMessage("ai", "Something went wrong reaching the model. Please try again.");
-      console.error(err);
+      if(err.name !== "AbortError"){
+        addMessage("ai", "Something went wrong reaching the model. Please try again.");
+        console.error(err);
+      }
     } finally {
       state.isSending = false;
+      els.sendBtn.style.display = "flex";
+      els.stopBtn.style.display = "none";
       renderPlanCard();
       saveCurrentChatIfAny();
       renderChatHistoryList();
     }
   }
 
-  async function handleChat(){
-    const response = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: state.history,
-        system: detailSystemPrompt(),
-        email: state.userEmail || "anonymous"
-      })
-    });
-    const data = await response.json();
-    removeTyping();
+  els.stopBtn.addEventListener("click", () => {
+    if(state.currentAbortController) state.currentAbortController.abort();
+  });
 
-    const answer = (data && data.answer) ? data.answer : "Sorry, I couldn't generate a response just now.";
-    addMessage("ai", answer);
-    state.history.push({role: "assistant", content: answer});
+  // Streams the reply in live, token by token. Supports an optional web-search
+  // pass first, and can be interrupted with the Stop button.
+  async function handleChat(useWebSearch){
+    let systemPrompt = detailSystemPrompt();
+
+    if(useWebSearch){
+      const query = state.history[state.history.length - 1].content;
+      try{
+        const searchRes = await fetch(WORKER_URL + "/web-search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        });
+        const searchData = await searchRes.json();
+        if(searchData.results && searchData.results.length){
+          const context = searchData.results.map((r, i) => `[${i+1}] ${r.title} — ${r.snippet} (${r.url})`).join("\n");
+          systemPrompt += `\n\nHere are current web search results to help answer — cite them as [1], [2] etc where relevant:\n${context}`;
+        }
+      } catch(e){ /* search failed — just answer without it */ }
+    }
+
+    state.currentAbortController = new AbortController();
+    const msgEl = addStreamingMessage();
+    let fullText = "";
+
+    try{
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: state.currentAbortController.signal,
+        body: JSON.stringify({
+          messages: state.history,
+          system: systemPrompt,
+          email: state.userEmail || "anonymous",
+          model: state.selectedModel,
+          stream: true
+        })
+      });
+
+      removeTyping();
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while(true){
+        const { done, value } = await reader.read();
+        if(done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop();
+        for(const line of lines){
+          if(!line.startsWith("data: ")) continue;
+          const dataStr = line.slice(6).trim();
+          if(dataStr === "[DONE]") continue;
+          try{
+            const parsed = JSON.parse(dataStr);
+            if(parsed.response){
+              fullText += parsed.response;
+              updateStreamingMessage(msgEl, fullText);
+            }
+          } catch(e){ /* partial chunk — wait for more */ }
+        }
+      }
+    } finally {
+      finalizeStreamingMessage(msgEl, fullText || "Sorry, I couldn't generate a response just now.");
+      state.history.push({role: "assistant", content: fullText || "Sorry, I couldn't generate a response just now."});
+      state.currentAbortController = null;
+    }
   }
 
   async function handleImageGenerate(prompt){
