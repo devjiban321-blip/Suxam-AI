@@ -2,7 +2,7 @@
   "name": "Suxam AI",
   "short_name": "Suxam AI",
   "description": "Suxam AI — chat, generate images, edit photos, and search the web, powered live.",
-  "start_url": "./chat-app.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
